@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediRemind - Programare Medicamente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #1a237e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1 span {
+            font-size: 3rem;
+        }
+
+        .header p {
+            color: #424242;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        /* Main grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        /* Form card */
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-card h2 {
+            color: #1a237e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #424242;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #1a237e;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn-primary {
+            background: #1a237e;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #0d1757;
+        }
+
+        /* Schedule card */
+        .schedule-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .schedule-card h2 {
+            color: #1a237e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Metrics row */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .metric {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            color: #1a237e;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        /* Medication list */
+        .medication-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .med-item {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background 0.3s;
+        }
+
+        .med-item:last-child {
+            border-bottom: none;
+        }
+
+        .med-item.pending {
+            background: #fff3e0;
+        }
+
+        .med-item.given {
+            background: #e8f5e8;
+        }
+
+        .med-item.snoozed {
+            background: #ffebee;
+        }
+
+        .med-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .med-time {
+            background: #1a237e;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .med-patient {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .med-details {
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .med-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .btn-small:hover {
+            opacity: 0.8;
+        }
+
+        .btn-give {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-snooze {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-undo {
+            background: #9e9e9e;
+            color: white;
+        }
+
+        .btn-reset {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        /* Alerts section */
+        .alerts {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .alerts h3 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            min-height: 100px;
+            border-left: 4px solid #1a237e;
+        }
+
+        .alert-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+
+        .alert-critical {
+            color: #d32f2f;
+            font-weight: 600;
+        }
+
+        /* Complete schedule table */
+        .schedule-table {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .schedule-table h3 {
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #1a237e;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .status-given {
+            background: #e8f5e8;
+            color: #4caf50;
+        }
+
+        .status-snoozed {
+            background: #ffebee;
+            color: #f44336;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Utility classes */
+        .hidden {
+            display: none;
+        }
+
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .error-message {
+            background: #f44336;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* Data management buttons */
+        .data-management {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: flex-end;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <span>💊</span> 
+                MediRemind
+            </h1>
+            <p>Sistem de administrare a medicației pentru personalul medical</p>
+        </div>
+
+        <!-- Main dashboard -->
+        <div class="dashboard">
+            <!-- Add Medication Form -->
+            <div class="form-card">
+                <h2>
+                    <span>📋</span>
+                    Adaugă Medicație Nouă
+                </h2>
+                
+                <div id="formMessage" class="hidden"></div>
+
+                <div class="form-group">
+                    <label for="patientName">Numele pacientului *</label>
+                    <input type="text" id="patientName" placeholder="ex: Ion Popescu">
+                </div>
+
+                <div class="form-group">
+                    <label for="roomNumber">Număr salon/pat</label>
+                    <input type="text" id="roomNumber" placeholder="ex: 204B">
+                </div>
+
+                <div class="form-group">
+                    <label for="medicationName">Medicație *</label>
+                    <input type="text" id="medicationName" placeholder="ex: Metformin">
+                </div>
+
+                <div class="form-group">
+                    <label for="dosage">Dozaj</label>
+                    <input type="text" id="dosage" placeholder="ex: 500mg">
+                </div>
+
+                <div class="form-group">
+                    <label for="scheduledTime">Oră administrare *</label>
+                    <input type="time" id="scheduledTime" value="08:00">
+                </div>
+
+                <div class="form-group">
+                    <label for="instructions">Instrucțiuni speciale</label>
+                    <textarea id="instructions" placeholder="ex: Se administrează în timpul mesei"></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="addMedication()">Adaugă în Program</button>
+                
+                <!-- Data management buttons -->
+                <div class="data-management">
+                    <button class="btn-warning" onclick="loadSampleData()">📋 Încarcă Date Exemplu</button>
+                    <button class="btn-danger" onclick="clearAllData()">🗑️ Șterge Toate Datele</button>
+                </div>
+                <small style="display: block; text-align: center; margin-top: 10px; color: #666;">
+                    💾 Datele se salvează automat în browser
+                </small>
+            </div>
+
+            <!-- Schedule Overview -->
+            <div class="schedule-card">
+                <h2>
+                    <span>📊</span>
+                    Programul de Azi
+                </h2>
+
+                <!-- Metrics -->
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-label">Total Pacienți</div>
+                        <div class="metric-value" id="totalPatients">0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Medicații</div>
+                        <div class="metric-value" id="totalMeds">0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Administrate</div>
+                        <div class="metric-value" id="completedCount">0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">În Așteptare</div>
+                        <div class="metric-value" id="pendingCount">0</div>
+                    </div>
+                </div>
+
+                <!-- Medication List -->
+                <div id="medicationList" class="medication-list">
+                    <div style="text-align: center; padding: 30px; color: #666;">
+                        Nu există medicații programate. Adaugă folosind formularul.
+                    </div>
+                </div>
+
+                <button class="btn-secondary" onclick="clearCompleted()">🗑️ Șterge Administrate</button>
+            </div>
+        </div>
+
+        <!-- Alerts Section -->
+        <div class="alerts">
+            <h3>
+                <span>🔔</span>
+                Alertă
+            </h3>
+            <div class="alert-box" id="alertBox">
+                Nu există alerte active
+            </div>
+            <button class="btn-secondary" onclick="checkAlerts()" style="margin-top: 15px;">
+                🔄 Verifică Medicații Restante
+            </button>
+        </div>
+
+        <!-- Complete Schedule Table -->
+        <div class="schedule-table">
+            <h3>📋 Program Complet</h3>
+            <table id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th>Ora</th>
+                        <th>Pacient</th>
+                        <th>Salon</th>
+                        <th>Medicație</th>
+                        <th>Dozaj</th>
+                        <th>Instrucțiuni</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: #666;">
+                            Nu există medicații programate
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            MediRemind v1.0 - Verificați întotdeauna prescripțiile medicale în documentația originală
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let medications = [];
+        let nextId = 1;
+
+        // localStorage keys
+        const STORAGE_KEY = 'mediremind_medications';
+        const ID_KEY = 'mediremind_nextId';
+
+        // ========== PERSISTENCE FUNCTIONS ==========
+        
+        // Save to localStorage
+        function saveToStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(medications));
+                localStorage.setItem(ID_KEY, nextId.toString());
+            } catch (e) {
+                console.error('Failed to save to localStorage:', e);
+                showFormMessage('Datele nu au putut fi salvate automat', 'error');
+            }
+        }
+
+        // Load from localStorage
+        function loadFromStorage() {
+            try {
+                const savedMeds = localStorage.getItem(STORAGE_KEY);
+                const savedId = localStorage.getItem(ID_KEY);
+                
+                if (savedMeds) {
+                    medications = JSON.parse(savedMeds);
+                }
+                
+                if (savedId) {
+                    nextId = parseInt(savedId) || 1;
+                }
+                
+                // Ensure all medications have valid status
+                medications = medications.map(med => ({
+                    ...med,
+                    status: med.status || 'Pending'
+                }));
+                
+            } catch (e) {
+                console.error('Failed to load from localStorage:', e);
+                medications = [];
+                nextId = 1;
+            }
+        }
+
+        // Clear all data from storage
+        function clearAllData() {
+            if (confirm('Sigur doriți să ștergeți TOATE datele? Această acțiune nu poate fi anulată.')) {
+                medications = [];
+                nextId = 1;
+                saveToStorage();
+                renderAll();
+                showFormMessage('Toate datele au fost șterse', 'success');
+            }
+        }
+
+        // Load sample data
+        function loadSampleData() {
+            const now = new Date();
+            
+            const sampleMeds = [
+                {
+                    id: nextId++,
+                    patientName: 'Ion Popescu',
+                    roomNumber: '204B',
+                    medicationName: 'Metformin',
+                    dosage: '500mg',
+                    scheduledTime: '08:00',
+                    instructions: 'Se administrează în timpul mesei',
+                    status: 'Pending'
+                },
+                {
+                    id: nextId++,
+                    patientName: 'Maria Ionescu',
+                    roomNumber: '105A',
+                    medicationName: 'Lisinopril',
+                    dosage: '10mg',
+                    scheduledTime: '12:30',
+                    instructions: 'O dată pe zi',
+                    status: 'Pending'
+                },
+                {
+                    id: nextId++,
+                    patientName: 'George Dumitrescu',
+                    roomNumber: '312',
+                    medicationName: 'Atorvastatin',
+                    dosage: '20mg',
+                    scheduledTime: '20:00',
+                    instructions: 'Se administrează seara înainte de culcare',
+                    status: 'Pending'
+                },
+                {
+                    id: nextId++,
+                    patientName: 'Elena Popa',
+                    roomNumber: '407',
+                    medicationName: 'Levothyroxină',
+                    dosage: '75mcg',
+                    scheduledTime: '07:00',
+                    instructions: 'Cu 30 minute înainte de micul dejun',
+                    status: 'Pending'
+                },
+                {
+                    id: nextId++,
+                    patientName: 'Vasile Stan',
+                    roomNumber: '218',
+                    medicationName: 'Amlodipină',
+                    dosage: '5mg',
+                    scheduledTime: '09:00',
+                    instructions: 'O dată pe zi',
+                    status: 'Given'
+                }
+            ];
+            
+            medications = sampleMeds;
+            saveToStorage();
+            renderAll();
+            showFormMessage('Date exemplu încărcate', 'success');
+        }
+
+        // ========== HELPER FUNCTIONS ==========
+
+        // Helper: Get current time in HH:MM format
+        function getCurrentTimeFormatted() {
+            const now = new Date();
+            return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+        }
+
+        // Show form message
+        function showFormMessage(message, type) {
+            const formMessage = document.getElementById('formMessage');
+            formMessage.textContent = message;
+            formMessage.className = type === 'success' ? 'success-message' : 'error-message';
+            formMessage.classList.remove('hidden');
+            
+            setTimeout(() => {
+                formMessage.classList.add('hidden');
+            }, 3000);
+        }
+
+        // ========== CORE FUNCTIONS ==========
+
+        // Add new medication
+        function addMedication() {
+            const patientName = document.getElementById('patientName').value.trim();
+            const roomNumber = document.getElementById('roomNumber').value.trim();
+            const medicationName = document.getElementById('medicationName').value.trim();
+            const dosage = document.getElementById('dosage').value.trim();
+            const scheduledTime = document.getElementById('scheduledTime').value;
+            const instructions = document.getElementById('instructions').value.trim();
+
+            // Validate required fields
+            if (!patientName || !medicationName || !scheduledTime) {
+                showFormMessage('Nume pacient, medicație și ora sunt obligatorii', 'error');
+                return;
+            }
+
+            // Create new medication
+            const newMed = {
+                id: nextId++,
+                patientName,
+                roomNumber: roomNumber || '—',
+                medicationName,
+                dosage: dosage || '—',
+                scheduledTime,
+                instructions: instructions || '—',
+                status: 'Pending'
+            };
+
+            medications.push(newMed);
+            
+            // Clear form
+            document.getElementById('patientName').value = '';
+            document.getElementById('roomNumber').value = '';
+            document.getElementById('medicationName').value = '';
+            document.getElementById('dosage').value = '';
+            document.getElementById('instructions').value = '';
+            
+            // Save to localStorage
+            saveToStorage();
+            
+            showFormMessage(`✅ ${medicationName} adăugat pentru ${patientName}`, 'success');
+            renderAll();
+        }
+
+        // Update medication status
+        function updateStatus(id, newStatus) {
+            const med = medications.find(m => m.id === id);
+            if (med) {
+                med.status = newStatus;
+                saveToStorage(); // Save after status change
+                renderAll();
+            }
+        }
+
+        // Clear completed medications
+        function clearCompleted() {
+            medications = medications.filter(m => m.status !== 'Given');
+            saveToStorage(); // Save after clearing
+            renderAll();
+        }
+
+        // Calculate metrics
+        function updateMetrics() {
+            const totalPatients = new Set(medications.map(m => m.patientName)).size;
+            const totalMeds = medications.length;
+            const completed = medications.filter(m => m.status === 'Given').length;
+            const pending = medications.filter(m => m.status === 'Pending').length;
+
+            document.getElementById('totalPatients').textContent = totalPatients;
+            document.getElementById('totalMeds').textContent = totalMeds;
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('pendingCount').textContent = pending;
+        }
+
+        // Check for due medications
+        function checkAlerts() {
+            const currentTime = getCurrentTimeFormatted();
+            const alertBox = document.getElementById('alertBox');
+            
+            const dueMeds = medications.filter(m => 
+                m.scheduledTime === currentTime && m.status === 'Pending'
+            );
+
+            if (dueMeds.length > 0) {
+                let alertHtml = '';
+                dueMeds.forEach(med => {
+                    alertHtml += `<div class="alert-item alert-critical">🔴 <strong>ACUM:</strong> ${med.medicationName} pentru ${med.patientName} (${med.roomNumber})</div>`;
+                });
+                alertBox.innerHTML = alertHtml;
+                
+                // Visual notification
+                showNotification();
+            } else {
+                // Show upcoming
+                const upcoming = medications
+                    .filter(m => m.status === 'Pending')
+                    .sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime))
+                    .slice(0, 3);
+
+                if (upcoming.length > 0) {
+                    let upcomingHtml = '<div class="alert-item">📌 <strong>Următoarele administrări:</strong></div>';
+                    upcoming.forEach(med => {
+                        upcomingHtml += `<div class="alert-item">  • ${med.scheduledTime} - ${med.patientName}: ${med.medicationName}</div>`;
+                    });
+                    alertBox.innerHTML = upcomingHtml;
+                } else {
+                    alertBox.innerHTML = '<div class="alert-item">✅ Toate medicațiile sunt la zi</div>';
+                }
+            }
+        }
+
+        // Visual notification effect
+        function showNotification() {
+            // Create a temporary visual effect
+            const alertBox = document.getElementById('alertBox');
+            alertBox.style.transition = 'background-color 0.5s';
+            alertBox.style.backgroundColor = '#ffebee';
+            setTimeout(() => {
+                alertBox.style.backgroundColor = '#f8f9fa';
+            }, 500);
+
+            // Try browser notification if permitted
+            if (Notification.permission === 'granted') {
+                new Notification('🔔 Atenție! Medicații de administrat!', {
+                    body: 'Verificați secțiunea de alerte',
+                    icon: '💊'
+                });
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission();
+            }
+        }
+
+        // Render medication list
+        function renderMedicationList() {
+            const listElement = document.getElementById('medicationList');
+            
+            if (medications.length === 0) {
+                listElement.innerHTML = '<div style="text-align: center; padding: 30px; color: #666;">Nu există medicații programate. Adaugă folosind formularul.</div>';
+                return;
+            }
+
+            // Sort by time
+            const sorted = [...medications].sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
+            
+            let html = '';
+            sorted.forEach(med => {
+                html += `
+                    <div class="med-item ${med.status.toLowerCase()}">
+                        <div class="med-header">
+                            <span class="med-time">${med.scheduledTime}</span>
+                            <span class="med-patient">${med.patientName} (${med.roomNumber})</span>
+                        </div>
+                        <div class="med-details">
+                            <strong>${med.medicationName} ${med.dosage}</strong><br>
+                            ${med.instructions}
+                        </div>
+                        <div class="med-actions">
+                            ${renderActions(med)}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            listElement.innerHTML = html;
+        }
+
+        // Render action buttons based on status
+        function renderActions(med) {
+            if (med.status === 'Pending') {
+                return `
+                    <button class="btn-small btn-give" onclick="updateStatus(${med.id}, 'Given')">✅ Administrat</button>
+                    <button class="btn-small btn-snooze" onclick="updateStatus(${med.id}, 'Snoozed')">⏱️ Amână</button>
+                `;
+            } else if (med.status === 'Given') {
+                return `
+                    <span class="status-badge status-given">✓ Administrat</span>
+                    <button class="btn-small btn-undo" onclick="updateStatus(${med.id}, 'Pending')">↩️ Anulează</button>
+                `;
+            } else {
+                return `
+                    <span class="status-badge status-snoozed">⏰ Amânat</span>
+                    <button class="btn-small btn-reset" onclick="updateStatus(${med.id}, 'Pending')">↩️ Resetează</button>
+                `;
+            }
+        }
+
+        // Render complete schedule table
+        function renderTable() {
+            const tableBody = document.getElementById('tableBody');
+            
+            if (medications.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: #666;">
+                            Nu există medicații programate
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // Sort by time
+            const sorted = [...medications].sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
+            
+            let html = '';
+            sorted.forEach(med => {
+                let statusText = 'În așteptare';
+                if (med.status === 'Given') statusText = 'Administrat';
+                if (med.status === 'Snoozed') statusText = 'Amânat';
+                
+                const statusClass = `status-badge status-${med.status.toLowerCase()}`;
+                html += `
+                    <tr>
+                        <td>${med.scheduledTime}</td>
+                        <td>${med.patientName}</td>
+                        <td>${med.roomNumber}</td>
+                        <td>${med.medicationName}</td>
+                        <td>${med.dosage}</td>
+                        <td>${med.instructions}</td>
+                        <td><span class="${statusClass}">${statusText}</span></td>
+                    </tr>
+                `;
+            });
+            
+            tableBody.innerHTML = html;
+        }
+
+        // Render everything
+        function renderAll() {
+            updateMetrics();
+            renderMedicationList();
+            renderTable();
+            checkAlerts();
+        }
+
+        // Set up auto-refresh
+        function startAutoRefresh() {
+            // Check alerts every minute
+            setInterval(checkAlerts, 60000);
+            
+            // Request notification permission
+            if ('Notification' in window) {
+                Notification.requestPermission();
+            }
+        }
+
+        // Initialize the app
+        window.onload = function() {
+            // Load saved data first
+            loadFromStorage();
+            
+            // If no data exists, optionally load sample data
+            if (medications.length === 0) {
+                // Uncomment the next line if you want sample data on first load
+                // loadSampleData();
+            }
+            
+            renderAll();
+            startAutoRefresh();
+        };
+    </script>
+</body>
+</html>
