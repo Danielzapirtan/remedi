@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>remedi - Programare Medicamente</title>
     
     <!-- PWA Meta Tags -->
@@ -34,26 +34,32 @@
 
         body {
             background: #f0f2f5;
-            padding: 20px;
+            padding: 12px;
             min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Install Prompt */
         .install-prompt {
             background: linear-gradient(135deg, #1a237e, #0d1757);
             color: white;
-            padding: 15px 20px;
+            padding: 10px 15px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             display: none;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3);
+            flex-shrink: 0;
         }
 
         .install-prompt.show {
@@ -63,57 +69,56 @@
         .install-prompt-content {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .install-prompt-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
 
         .install-prompt-text {
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .install-prompt-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .install-btn {
             background: white;
             color: #1a237e;
             border: none;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 5px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .install-btn:hover {
-            transform: scale(1.05);
+            font-size: 0.9rem;
         }
 
         .dismiss-btn {
             background: rgba(255, 255, 255, 0.2);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.5);
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 0.9rem;
         }
 
         /* Offline Banner */
         .offline-banner {
             background: #ff9800;
             color: white;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             display: none;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             font-weight: 500;
+            font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
         .offline-banner.show {
@@ -122,69 +127,148 @@
 
         /* Header */
         .header {
-            margin-bottom: 30px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             color: #1a237e;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .header h1 span {
-            font-size: 3rem;
+            font-size: 2rem;
         }
 
         .header p {
             color: #424242;
-            font-size: 1.1rem;
-            margin-top: 5px;
+            font-size: 0.95rem;
+            margin-top: 2px;
         }
 
-        /* Main grid */
-        .dashboard {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 25px;
-            margin-bottom: 25px;
+        /* Tab Navigation */
+        .tab-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            height: 100%;
         }
 
-        /* Form card */
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: white;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            background: #1a237e;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(26, 35, 126, 0.3);
+        }
+
+        .tab-content {
+            flex: 1;
+            min-height: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .tab-pane {
+            display: none;
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* Custom scrollbar */
+        .tab-pane::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .tab-pane::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .tab-pane::-webkit-scrollbar-thumb {
+            background: #1a237e;
+            border-radius: 10px;
+        }
+
+        /* Tab 1: Adaugă Medicație */
         .form-card {
             background: white;
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .form-card h2 {
             color: #1a237e;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .form-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+            margin-bottom: 10px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             color: #424242;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .form-group input, .form-group textarea {
             width: 100%;
-            padding: 10px;
+            padding: 8px 10px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: border-color 0.3s;
         }
 
@@ -194,83 +278,116 @@
         }
 
         .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
+            resize: none;
+            min-height: 60px;
         }
 
         .btn-primary {
             background: #1a237e;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 12px;
             border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
             transition: background 0.3s;
+            margin-top: 5px;
+            flex-shrink: 0;
         }
 
         .btn-primary:hover {
             background: #0d1757;
         }
 
-        /* Schedule card */
+        .data-management {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0 5px;
+            flex-shrink: 0;
+        }
+
+        .btn-warning, .btn-danger {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Tab 2: Programul de Azi */
         .schedule-card {
             background: white;
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .schedule-card h2 {
             color: #1a237e;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 1.3rem;
+            flex-shrink: 0;
         }
 
-        /* Metrics row */
         .metrics {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
         }
 
         .metric {
             background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 10px 5px;
+            border-radius: 8px;
             text-align: center;
         }
 
         .metric-label {
             color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 5px;
+            font-size: 0.75rem;
+            margin-bottom: 3px;
         }
 
         .metric-value {
             color: #1a237e;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: bold;
+            line-height: 1.2;
         }
 
-        /* Medication list */
         .medication-list {
-            max-height: 400px;
+            flex: 1;
             overflow-y: auto;
             border: 1px solid #e0e0e0;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .med-item {
-            padding: 15px;
+            padding: 12px;
             border-bottom: 1px solid #e0e0e0;
-            transition: background 0.3s;
         }
 
         .med-item:last-child {
@@ -293,46 +410,44 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+            gap: 5px;
         }
 
         .med-time {
             background: #1a237e;
             color: white;
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 600;
         }
 
         .med-patient {
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #333;
         }
 
         .med-details {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #666;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
         }
 
         .med-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .btn-small {
-            padding: 6px 12px;
+            padding: 5px 10px;
             border: none;
             border-radius: 5px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        .btn-small:hover {
-            opacity: 0.8;
         }
 
         .btn-give {
@@ -359,95 +474,69 @@
             background: #e0e0e0;
             color: #333;
             border: none;
-            padding: 10px 20px;
+            padding: 8px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            flex-shrink: 0;
         }
 
-        .btn-secondary:hover {
-            background: #d0d0d0;
-        }
-
-        /* Alerts section */
-        .alerts {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .alerts h3 {
-            color: #1a237e;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .alert-box {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            min-height: 100px;
-            border-left: 4px solid #1a237e;
-        }
-
-        .alert-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .alert-item:last-child {
-            border-bottom: none;
-        }
-
-        .alert-critical {
-            color: #d32f2f;
-            font-weight: 600;
-        }
-
-        /* Complete schedule table */
+        /* Tab 3: Program Complet */
         .schedule-table {
             background: white;
             border-radius: 15px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            overflow-x: auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .schedule-table h3 {
             color: #1a237e;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .table-scroll {
+            flex: 1;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.85rem;
         }
 
         th {
             background: #1a237e;
             color: white;
-            padding: 12px;
+            padding: 10px 6px;
             text-align: left;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-size: 0.8rem;
         }
 
         td {
-            padding: 12px;
+            padding: 8px 6px;
             border-bottom: 1px solid #e0e0e0;
         }
 
-        tr:hover {
-            background: #f5f5f5;
-        }
-
         .status-badge {
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 4px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 500;
+            display: inline-block;
         }
 
         .status-pending {
@@ -465,11 +554,55 @@
             color: #f44336;
         }
 
+        /* Alerts Section (now in Tab 3) */
+        .alerts {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .alerts h3 {
+            color: #1a237e;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+
+        .alert-box {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            min-height: 70px;
+            border-left: 4px solid #1a237e;
+            font-size: 0.9rem;
+        }
+
+        .alert-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+
+        .alert-critical {
+            color: #d32f2f;
+            font-weight: 600;
+        }
+
+        /* Footer */
         .footer {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 12px;
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            flex-shrink: 0;
         }
 
         /* Utility classes */
@@ -477,84 +610,52 @@
             display: none;
         }
 
+        .success-message, .error-message {
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
         .success-message {
             background: #4caf50;
             color: white;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
         }
 
         .error-message {
             background: #f44336;
             color: white;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-
-        /* Data management buttons */
-        .data-management {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: flex-end;
-        }
-
-        .btn-danger {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .btn-danger:hover {
-            background: #c82333;
-        }
-
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .btn-warning:hover {
-            background: #e0a800;
-        }
-
-        /* Online/Offline status indicator */
-        .status-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-
-        .status-online {
-            background: #4caf50;
-            box-shadow: 0 0 10px #4caf50;
-        }
-
-        .status-offline {
-            background: #ff9800;
-            box-shadow: 0 0 10px #ff9800;
         }
 
         .connection-status {
             display: flex;
             align-items: center;
             gap: 5px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #666;
-            margin-left: auto;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 3px;
+        }
+
+        .status-online {
+            background: #4caf50;
+            box-shadow: 0 0 8px #4caf50;
+        }
+
+        .status-offline {
+            background: #ff9800;
+            box-shadow: 0 0 8px #ff9800;
+        }
+
+        small {
+            font-size: 0.75rem;
+            color: #666;
         }
     </style>
 </head>
@@ -566,7 +667,7 @@
                 <span class="install-prompt-icon">📱</span>
                 <div class="install-prompt-text">
                     <strong>Instalează remedi</strong><br>
-                    Accesează rapid programul medicamentos de pe ecranul principal
+                    Accesează rapid programul medicamentos
                 </div>
             </div>
             <div class="install-prompt-buttons">
@@ -578,7 +679,7 @@
         <!-- Offline Banner -->
         <div class="offline-banner" id="offlineBanner">
             <span>📴</span>
-            <span>Ești offline. Modificările se vor salva local și se vor sincroniza când revii online.</span>
+            <span>Ești offline. Modificările se salvează local.</span>
         </div>
 
         <!-- Header -->
@@ -593,142 +694,168 @@
                     <span id="statusText">Online</span>
                 </div>
             </div>
-            <p>Sistem de administrare a medicației pentru personalul medical</p>
+            <p>Sistem de administrare a medicației</p>
         </div>
 
-        <!-- Main dashboard -->
-        <div class="dashboard">
-            <!-- Add Medication Form -->
-            <div class="form-card">
-                <h2>
-                    <span>📋</span>
-                    Adaugă Medicație Nouă
-                </h2>
-                
-                <div id="formMessage" class="hidden"></div>
-
-                <div class="form-group">
-                    <label for="patientName">Numele pacientului *</label>
-                    <input type="text" id="patientName" placeholder="ex: Ion Popescu">
-                </div>
-
-                <div class="form-group">
-                    <label for="roomNumber">Număr salon/pat</label>
-                    <input type="text" id="roomNumber" placeholder="ex: 204B">
-                </div>
-
-                <div class="form-group">
-                    <label for="medicationName">Medicație *</label>
-                    <input type="text" id="medicationName" placeholder="ex: Metformin">
-                </div>
-
-                <div class="form-group">
-                    <label for="dosage">Dozaj</label>
-                    <input type="text" id="dosage" placeholder="ex: 500mg">
-                </div>
-
-                <div class="form-group">
-                    <label for="scheduledTime">Oră administrare *</label>
-                    <input type="time" id="scheduledTime" value="08:00">
-                </div>
-
-                <div class="form-group">
-                    <label for="instructions">Instrucțiuni speciale</label>
-                    <textarea id="instructions" placeholder="ex: Se administrează în timpul mesei"></textarea>
-                </div>
-
-                <button class="btn-primary" onclick="addMedication()">Adaugă în Program</button>
-                
-                <!-- Data management buttons -->
-                <div class="data-management">
-                    <button class="btn-warning" onclick="loadSampleData()">📋 Încarcă Date Exemplu</button>
-                    <button class="btn-danger" onclick="clearAllData()">🗑️ Șterge Toate Datele</button>
-                </div>
-                <small style="display: block; text-align: center; margin-top: 10px; color: #666;">
-                    💾 Datele se salvează automat în browser
-                </small>
+        <!-- Tab Container -->
+        <div class="tab-container">
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="switchTab(1)">
+                    <span>📝</span> Adaugă
+                </button>
+                <button class="tab-btn" onclick="switchTab(2)">
+                    <span>📊</span> Azi
+                </button>
+                <button class="tab-btn" onclick="switchTab(3)">
+                    <span>📋</span> Program
+                </button>
             </div>
 
-            <!-- Schedule Overview -->
-            <div class="schedule-card">
-                <h2>
-                    <span>📊</span>
-                    Programul de Azi
-                </h2>
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Tab 1: Add Medication -->
+                <div class="tab-pane active" id="tab1">
+                    <div class="form-card">
+                        <h2>
+                            <span>📋</span>
+                            Adaugă Medicație Nouă
+                        </h2>
+                        
+                        <div class="form-scroll">
+                            <div id="formMessage" class="hidden"></div>
 
-                <!-- Metrics -->
-                <div class="metrics">
-                    <div class="metric">
-                        <div class="metric-label">Total Pacienți</div>
-                        <div class="metric-value" id="totalPatients">0</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">Medicații</div>
-                        <div class="metric-value" id="totalMeds">0</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">Administrate</div>
-                        <div class="metric-value" id="completedCount">0</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">În Așteptare</div>
-                        <div class="metric-value" id="pendingCount">0</div>
+                            <div class="form-group">
+                                <label for="patientName">Numele pacientului *</label>
+                                <input type="text" id="patientName" placeholder="ex: Ion Popescu">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="roomNumber">Număr salon/pat</label>
+                                <input type="text" id="roomNumber" placeholder="ex: 204B">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="medicationName">Medicație *</label>
+                                <input type="text" id="medicationName" placeholder="ex: Metformin">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dosage">Dozaj</label>
+                                <input type="text" id="dosage" placeholder="ex: 500mg">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="scheduledTime">Oră administrare *</label>
+                                <input type="time" id="scheduledTime" value="08:00">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="instructions">Instrucțiuni speciale</label>
+                                <textarea id="instructions" placeholder="ex: Se administrează în timpul mesei" rows="2"></textarea>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary" onclick="addMedication()">Adaugă în Program</button>
+                        
+                        <!-- Data management buttons -->
+                        <div class="data-management">
+                            <button class="btn-warning" onclick="loadSampleData()">📋 Încarcă Exemplu</button>
+                            <button class="btn-danger" onclick="clearAllData()">🗑️ Șterge Tot</button>
+                        </div>
+                        <small style="display: block; text-align: center; margin-top: 8px;">
+                            💾 Datele se salvează automat
+                        </small>
                     </div>
                 </div>
 
-                <!-- Medication List -->
-                <div id="medicationList" class="medication-list">
-                    <div style="text-align: center; padding: 30px; color: #666;">
-                        Nu există medicații programate. Adaugă folosind formularul.
+                <!-- Tab 2: Today's Schedule -->
+                <div class="tab-pane" id="tab2">
+                    <div class="schedule-card">
+                        <h2>
+                            <span>📊</span>
+                            Programul de Azi
+                        </h2>
+
+                        <!-- Metrics -->
+                        <div class="metrics">
+                            <div class="metric">
+                                <div class="metric-label">Pacienți</div>
+                                <div class="metric-value" id="totalPatients">0</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Total</div>
+                                <div class="metric-value" id="totalMeds">0</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Administrate</div>
+                                <div class="metric-value" id="completedCount">0</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">În Așteptare</div>
+                                <div class="metric-value" id="pendingCount">0</div>
+                            </div>
+                        </div>
+
+                        <!-- Medication List -->
+                        <div id="medicationList" class="medication-list">
+                            <div style="text-align: center; padding: 20px; color: #666;">
+                                Nu există medicații programate.
+                            </div>
+                        </div>
+
+                        <button class="btn-secondary" onclick="clearCompleted()">🗑️ Șterge Administrate</button>
                     </div>
                 </div>
 
-                <button class="btn-secondary" onclick="clearCompleted()">🗑️ Șterge Administrate</button>
-            </div>
-        </div>
+                <!-- Tab 3: Complete Schedule -->
+                <div class="tab-pane" id="tab3">
+                    <!-- Alerts Section (moved to top of tab 3) -->
+                    <div class="alerts">
+                        <h3>
+                            <span>🔔</span>
+                            Alertă
+                        </h3>
+                        <div class="alert-box" id="alertBox">
+                            Nu există alerte active
+                        </div>
+                        <button class="btn-secondary" onclick="checkAlerts()" style="margin-top: 10px; width: 100%;">
+                            🔄 Verifică Medicații Restante
+                        </button>
+                    </div>
 
-        <!-- Alerts Section -->
-        <div class="alerts">
-            <h3>
-                <span>🔔</span>
-                Alertă
-            </h3>
-            <div class="alert-box" id="alertBox">
-                Nu există alerte active
+                    <!-- Complete Schedule Table -->
+                    <div class="schedule-table">
+                        <h3>📋 Program Complet</h3>
+                        <div class="table-scroll">
+                            <table id="scheduleTable">
+                                <thead>
+                                    <tr>
+                                        <th>Ora</th>
+                                        <th>Pacient</th>
+                                        <th>Salon</th>
+                                        <th>Medicație</th>
+                                        <th>Dozaj</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; color: #666; padding: 20px;">
+                                            Nu există medicații programate
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button class="btn-secondary" onclick="checkAlerts()" style="margin-top: 15px;">
-                🔄 Verifică Medicații Restante
-            </button>
-        </div>
-
-        <!-- Complete Schedule Table -->
-        <div class="schedule-table">
-            <h3>📋 Program Complet</h3>
-            <table id="scheduleTable">
-                <thead>
-                    <tr>
-                        <th>Ora</th>
-                        <th>Pacient</th>
-                        <th>Salon</th>
-                        <th>Medicație</th>
-                        <th>Dozaj</th>
-                        <th>Instrucțiuni</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <tr>
-                        <td colspan="7" style="text-align: center; color: #666;">
-                            Nu există medicații programate
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
 
         <!-- Footer -->
         <div class="footer">
-          remedi v1.0 - Verificați întotdeauna prescripțiile medicale în documentația originală
+            remedi v1.0 - Verificați întotdeauna prescripțiile
         </div>
     </div>
 
@@ -747,6 +874,27 @@
         const installButton = document.getElementById('installButton');
         const dismissInstall = document.getElementById('dismissInstall');
 
+        // Tab switching function
+        function switchTab(tabNumber) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach((btn, index) => {
+                if (index === tabNumber - 1) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Update tab panes
+            document.querySelectorAll('.tab-pane').forEach((pane, index) => {
+                if (index === tabNumber - 1) {
+                    pane.classList.add('active');
+                } else {
+                    pane.classList.remove('active');
+                }
+            });
+        }
+
         // Check if app is already installed
         if (window.matchMedia('(display-mode: standalone)').matches) {
             installPrompt.classList.remove('show');
@@ -756,7 +904,6 @@
             e.preventDefault();
             deferredPrompt = e;
             
-            // Don't show if already installed or dismissed
             if (!localStorage.getItem('installDismissed')) {
                 installPrompt.classList.add('show');
             }
@@ -804,13 +951,11 @@
 
         // ========== PERSISTENCE FUNCTIONS ==========
         
-        // Save to localStorage
         function saveToStorage() {
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(medications));
                 localStorage.setItem(ID_KEY, nextId.toString());
                 
-                // Try to sync if online
                 if (navigator.onLine && 'serviceWorker' in navigator && 'SyncManager' in window) {
                     navigator.serviceWorker.ready.then(registration => {
                         registration.sync.register('sync-medications');
@@ -822,7 +967,6 @@
             }
         }
 
-        // Load from localStorage
         function loadFromStorage() {
             try {
                 const savedMeds = localStorage.getItem(STORAGE_KEY);
@@ -836,7 +980,6 @@
                     nextId = parseInt(savedId) || 1;
                 }
                 
-                // Ensure all medications have valid status
                 medications = medications.map(med => ({
                     ...med,
                     status: med.status || 'Pending'
@@ -849,9 +992,8 @@
             }
         }
 
-        // Clear all data from storage
         function clearAllData() {
-            if (confirm('Sigur doriți să ștergeți TOATE datele? Această acțiune nu poate fi anulată.')) {
+            if (confirm('Sigur doriți să ștergeți TOATE datele?')) {
                 medications = [];
                 nextId = 1;
                 saveToStorage();
@@ -860,7 +1002,6 @@
             }
         }
 
-        // Load sample data
         function loadSampleData() {
             const now = new Date();
             
@@ -892,7 +1033,7 @@
                     medicationName: 'Atorvastatin',
                     dosage: '20mg',
                     scheduledTime: '20:00',
-                    instructions: 'Se administrează seara înainte de culcare',
+                    instructions: 'Se administrează seara',
                     status: 'Pending'
                 },
                 {
@@ -902,7 +1043,7 @@
                     medicationName: 'Levothyroxină',
                     dosage: '75mcg',
                     scheduledTime: '07:00',
-                    instructions: 'Cu 30 minute înainte de micul dejun',
+                    instructions: 'Înainte de micul dejun',
                     status: 'Pending'
                 },
                 {
@@ -925,27 +1066,26 @@
 
         // ========== HELPER FUNCTIONS ==========
 
-        // Helper: Get current time in HH:MM format
         function getCurrentTimeFormatted() {
             const now = new Date();
             return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
         }
 
-        // Show form message
         function showFormMessage(message, type) {
             const formMessage = document.getElementById('formMessage');
-            formMessage.textContent = message;
-            formMessage.className = type === 'success' ? 'success-message' : 'error-message';
-            formMessage.classList.remove('hidden');
-            
-            setTimeout(() => {
-                formMessage.classList.add('hidden');
-            }, 3000);
+            if (formMessage) {
+                formMessage.textContent = message;
+                formMessage.className = type === 'success' ? 'success-message' : 'error-message';
+                formMessage.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    formMessage.classList.add('hidden');
+                }, 3000);
+            }
         }
 
         // ========== CORE FUNCTIONS ==========
 
-        // Add new medication
         function addMedication() {
             const patientName = document.getElementById('patientName').value.trim();
             const roomNumber = document.getElementById('roomNumber').value.trim();
@@ -954,13 +1094,11 @@
             const scheduledTime = document.getElementById('scheduledTime').value;
             const instructions = document.getElementById('instructions').value.trim();
 
-            // Validate required fields
             if (!patientName || !medicationName || !scheduledTime) {
                 showFormMessage('Nume pacient, medicație și ora sunt obligatorii', 'error');
                 return;
             }
 
-            // Create new medication
             const newMed = {
                 id: nextId++,
                 patientName,
@@ -974,38 +1112,32 @@
 
             medications.push(newMed);
             
-            // Clear form
             document.getElementById('patientName').value = '';
             document.getElementById('roomNumber').value = '';
             document.getElementById('medicationName').value = '';
             document.getElementById('dosage').value = '';
             document.getElementById('instructions').value = '';
             
-            // Save to localStorage
             saveToStorage();
-            
             showFormMessage(`✅ ${medicationName} adăugat pentru ${patientName}`, 'success');
             renderAll();
         }
 
-        // Update medication status
         function updateStatus(id, newStatus) {
             const med = medications.find(m => m.id === id);
             if (med) {
                 med.status = newStatus;
-                saveToStorage(); // Save after status change
+                saveToStorage();
                 renderAll();
             }
         }
 
-        // Clear completed medications
         function clearCompleted() {
             medications = medications.filter(m => m.status !== 'Given');
-            saveToStorage(); // Save after clearing
+            saveToStorage();
             renderAll();
         }
 
-        // Calculate metrics
         function updateMetrics() {
             const totalPatients = new Set(medications.map(m => m.patientName)).size;
             const totalMeds = medications.length;
@@ -1018,7 +1150,6 @@
             document.getElementById('pendingCount').textContent = pending;
         }
 
-        // Check for due medications
         function checkAlerts() {
             const currentTime = getCurrentTimeFormatted();
             const alertBox = document.getElementById('alertBox');
@@ -1030,21 +1161,19 @@
             if (dueMeds.length > 0) {
                 let alertHtml = '';
                 dueMeds.forEach(med => {
-                    alertHtml += `<div class="alert-item alert-critical">🔴 <strong>ACUM:</strong> ${med.medicationName} pentru ${med.patientName} (${med.roomNumber})</div>`;
+                    alertHtml += `<div class="alert-item alert-critical">🔴 <strong>ACUM:</strong> ${med.medicationName} - ${med.patientName}</div>`;
                 });
                 alertBox.innerHTML = alertHtml;
                 
-                // Visual notification
                 showNotification();
             } else {
-                // Show upcoming
                 const upcoming = medications
                     .filter(m => m.status === 'Pending')
                     .sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime))
                     .slice(0, 3);
 
                 if (upcoming.length > 0) {
-                    let upcomingHtml = '<div class="alert-item">📌 <strong>Următoarele administrări:</strong></div>';
+                    let upcomingHtml = '<div class="alert-item">📌 <strong>Următoarele:</strong></div>';
                     upcoming.forEach(med => {
                         upcomingHtml += `<div class="alert-item">  • ${med.scheduledTime} - ${med.patientName}: ${med.medicationName}</div>`;
                     });
@@ -1055,9 +1184,7 @@
             }
         }
 
-        // Visual notification effect
         function showNotification() {
-            // Create a temporary visual effect
             const alertBox = document.getElementById('alertBox');
             alertBox.style.transition = 'background-color 0.5s';
             alertBox.style.backgroundColor = '#ffebee';
@@ -1065,7 +1192,6 @@
                 alertBox.style.backgroundColor = '#f8f9fa';
             }, 500);
 
-            // Try browser notification if permitted
             if (Notification.permission === 'granted') {
                 new Notification('🔔 Atenție! Medicații de administrat!', {
                     body: 'Verificați secțiunea de alerte',
@@ -1076,16 +1202,14 @@
             }
         }
 
-        // Render medication list
         function renderMedicationList() {
             const listElement = document.getElementById('medicationList');
             
             if (medications.length === 0) {
-                listElement.innerHTML = '<div style="text-align: center; padding: 30px; color: #666;">Nu există medicații programate. Adaugă folosind formularul.</div>';
+                listElement.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Nu există medicații programate.</div>';
                 return;
             }
 
-            // Sort by time
             const sorted = [...medications].sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
             
             let html = '';
@@ -1094,11 +1218,11 @@
                     <div class="med-item ${med.status.toLowerCase()}">
                         <div class="med-header">
                             <span class="med-time">${med.scheduledTime}</span>
-                            <span class="med-patient">${med.patientName} (${med.roomNumber})</span>
+                            <span class="med-patient">${med.patientName}</span>
                         </div>
                         <div class="med-details">
                             <strong>${med.medicationName} ${med.dosage}</strong><br>
-                            ${med.instructions}
+                            ${med.roomNumber}
                         </div>
                         <div class="med-actions">
                             ${renderActions(med)}
@@ -1110,7 +1234,6 @@
             listElement.innerHTML = html;
         }
 
-        // Render action buttons based on status
         function renderActions(med) {
             if (med.status === 'Pending') {
                 return `
@@ -1130,14 +1253,13 @@
             }
         }
 
-        // Render complete schedule table
         function renderTable() {
             const tableBody = document.getElementById('tableBody');
             
             if (medications.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align: center; color: #666;">
+                        <td colspan="6" style="text-align: center; color: #666; padding: 20px;">
                             Nu există medicații programate
                         </td>
                     </tr>
@@ -1145,7 +1267,6 @@
                 return;
             }
 
-            // Sort by time
             const sorted = [...medications].sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
             
             let html = '';
@@ -1162,7 +1283,6 @@
                         <td>${med.roomNumber}</td>
                         <td>${med.medicationName}</td>
                         <td>${med.dosage}</td>
-                        <td>${med.instructions}</td>
                         <td><span class="${statusClass}">${statusText}</span></td>
                     </tr>
                 `;
@@ -1171,7 +1291,6 @@
             tableBody.innerHTML = html;
         }
 
-        // Render everything
         function renderAll() {
             updateMetrics();
             renderMedicationList();
@@ -1179,12 +1298,9 @@
             checkAlerts();
         }
 
-        // Set up auto-refresh
         function startAutoRefresh() {
-            // Check alerts every minute
             setInterval(checkAlerts, 60000);
             
-            // Request notification permission
             if ('Notification' in window) {
                 Notification.requestPermission();
             }
@@ -1201,7 +1317,6 @@
                         console.log('ServiceWorker registration failed: ', error);
                     });
 
-                // Listen for messages from service worker
                 navigator.serviceWorker.addEventListener('message', event => {
                     if (event.data.type === 'SYNC_COMPLETED') {
                         showFormMessage(event.data.message, 'success');
@@ -1212,15 +1327,7 @@
 
         // Initialize the app
         window.onload = function() {
-            // Load saved data first
             loadFromStorage();
-            
-            // If no data exists, optionally load sample data
-            if (medications.length === 0) {
-                // Uncomment the next line if you want sample data on first load
-                // loadSampleData();
-            }
-            
             renderAll();
             startAutoRefresh();
         };
