@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>remedi - Programare Medicamente</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1a237e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="remedi">
+    
+    <!-- Link to Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-192x192.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+    
     <style>
         * {
             margin: 0;
@@ -21,6 +41,83 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
+        }
+
+        /* Install Prompt */
+        .install-prompt {
+            background: linear-gradient(135deg, #1a237e, #0d1757);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3);
+        }
+
+        .install-prompt.show {
+            display: flex;
+        }
+
+        .install-prompt-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .install-prompt-icon {
+            font-size: 2rem;
+        }
+
+        .install-prompt-text {
+            font-size: 1rem;
+        }
+
+        .install-prompt-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .install-btn {
+            background: white;
+            color: #1a237e;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .install-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .dismiss-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Offline Banner */
+        .offline-banner {
+            background: #ff9800;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .offline-banner.show {
+            display: flex;
         }
 
         /* Header */
@@ -431,16 +528,71 @@
         .btn-warning:hover {
             background: #e0a800;
         }
+
+        /* Online/Offline status indicator */
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .status-online {
+            background: #4caf50;
+            box-shadow: 0 0 10px #4caf50;
+        }
+
+        .status-offline {
+            background: #ff9800;
+            box-shadow: 0 0 10px #ff9800;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: #666;
+            margin-left: auto;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Install Prompt -->
+        <div class="install-prompt" id="installPrompt">
+            <div class="install-prompt-content">
+                <span class="install-prompt-icon">📱</span>
+                <div class="install-prompt-text">
+                    <strong>Instalează remedi</strong><br>
+                    Accesează rapid programul medicamentos de pe ecranul principal
+                </div>
+            </div>
+            <div class="install-prompt-buttons">
+                <button class="install-btn" id="installButton">Instalează</button>
+                <button class="dismiss-btn" id="dismissInstall">Acum nu</button>
+            </div>
+        </div>
+
+        <!-- Offline Banner -->
+        <div class="offline-banner" id="offlineBanner">
+            <span>📴</span>
+            <span>Ești offline. Modificările se vor salva local și se vor sincroniza când revii online.</span>
+        </div>
+
         <!-- Header -->
         <div class="header">
-            <h1>
-                <span>💊</span> 
-                remedi
-            </h1>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h1>
+                    <span>💊</span> 
+                    remedi
+                </h1>
+                <div class="connection-status" id="connectionStatus">
+                    <span class="status-indicator status-online" id="statusIndicator"></span>
+                    <span id="statusText">Online</span>
+                </div>
+            </div>
             <p>Sistem de administrare a medicației pentru personalul medical</p>
         </div>
 
@@ -589,6 +741,67 @@
         const STORAGE_KEY = 'mediremind_medications';
         const ID_KEY = 'mediremind_nextId';
 
+        // PWA Installation
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installButton = document.getElementById('installButton');
+        const dismissInstall = document.getElementById('dismissInstall');
+
+        // Check if app is already installed
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installPrompt.classList.remove('show');
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Don't show if already installed or dismissed
+            if (!localStorage.getItem('installDismissed')) {
+                installPrompt.classList.add('show');
+            }
+        });
+
+        installButton.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                console.log('App installed');
+                installPrompt.classList.remove('show');
+            }
+            
+            deferredPrompt = null;
+        });
+
+        dismissInstall.addEventListener('click', () => {
+            installPrompt.classList.remove('show');
+            localStorage.setItem('installDismissed', 'true');
+        });
+
+        // Online/Offline detection
+        function updateOnlineStatus() {
+            const statusIndicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            const offlineBanner = document.getElementById('offlineBanner');
+            
+            if (navigator.onLine) {
+                statusIndicator.className = 'status-indicator status-online';
+                statusText.textContent = 'Online';
+                offlineBanner.classList.remove('show');
+            } else {
+                statusIndicator.className = 'status-indicator status-offline';
+                statusText.textContent = 'Offline';
+                offlineBanner.classList.add('show');
+            }
+        }
+
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+
         // ========== PERSISTENCE FUNCTIONS ==========
         
         // Save to localStorage
@@ -596,6 +809,13 @@
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(medications));
                 localStorage.setItem(ID_KEY, nextId.toString());
+                
+                // Try to sync if online
+                if (navigator.onLine && 'serviceWorker' in navigator && 'SyncManager' in window) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        registration.sync.register('sync-medications');
+                    });
+                }
             } catch (e) {
                 console.error('Failed to save to localStorage:', e);
                 showFormMessage('Datele nu au putut fi salvate automat', 'error');
@@ -849,7 +1069,7 @@
             if (Notification.permission === 'granted') {
                 new Notification('🔔 Atenție! Medicații de administrat!', {
                     body: 'Verificați secțiunea de alerte',
-                    icon: '💊'
+                    icon: 'icons/icon-192x192.png'
                 });
             } else if (Notification.permission !== 'denied') {
                 Notification.requestPermission();
@@ -968,6 +1188,26 @@
             if ('Notification' in window) {
                 Notification.requestPermission();
             }
+        }
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered: ', registration);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+
+                // Listen for messages from service worker
+                navigator.serviceWorker.addEventListener('message', event => {
+                    if (event.data.type === 'SYNC_COMPLETED') {
+                        showFormMessage(event.data.message, 'success');
+                    }
+                });
+            });
         }
 
         // Initialize the app
