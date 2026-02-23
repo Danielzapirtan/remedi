@@ -1,4 +1,4 @@
-const CACHE_NAME = 'remedi-v20260223_2345';
+const CACHE_NAME = 'remedi-v20260224_0000';
 const urlsToCache = [
   './',
   './index.html',
