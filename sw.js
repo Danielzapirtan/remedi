@@ -1,8 +1,8 @@
-const CACHE_NAME = 'remedi-v1';
+const CACHE_NAME = 'remedi-v20260223-0600';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
+  './',
+  './index.html',
+  './manifest.json',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
 ];
 
