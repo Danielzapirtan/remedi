@@ -981,6 +981,39 @@
                 } catch (e) {}
             }
 
+            // ========== TAB SWITCHING FIX ==========
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            function switchTab(tabNumber) {
+                // Update button states
+                tabButtons.forEach(btn => {
+                    if (parseInt(btn.dataset.tab) === tabNumber) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                // Update pane states
+                tabPanes.forEach((pane, index) => {
+                    if (index === tabNumber - 1) {
+                        pane.classList.add('active');
+                    } else {
+                        pane.classList.remove('active');
+                    }
+                });
+            }
+
+            // Add click handlers to tab buttons
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabNumber = parseInt(this.dataset.tab);
+                    switchTab(tabNumber);
+                });
+            });
+
             // ========== HELPERS ==========
             function generatePatientId() {
                 return _nextPatientId++;
@@ -1052,8 +1085,6 @@
             };
 
             // Contor înregistrări dinamice (doar pentru UI)
-            let recordCounter = 0;
-
             function createMedRecordHtml(recordId = null) {
                 const id = recordId || Date.now() + Math.random();
                 return `
