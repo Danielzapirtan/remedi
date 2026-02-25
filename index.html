@@ -3,28 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>remedi - Programare Medicamente</title>
-    
-    <!-- PWA Meta Tags -->
+    <title>remedi - Programare Medicamente (Schema completă)</title>
+
+    <!-- PWA Meta Tags (păstrate pentru funcționalitate) -->
     <meta name="theme-color" content="#1a237e">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="remedi">
-    
+
     <!-- Link to Manifest -->
     <link rel="manifest" href="manifest.json">
-    
+
     <!-- iOS Icons -->
     <link rel="apple-touch-icon" href="icons/icon-152x152.png">
     <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192x192.png">
     <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-192x192.png">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
-    
+
     <style>
+        /* STYLE-URI PĂSTRATE ÎN INTEGRALITATE, DOAR ADAUGĂRI MINORE PENTRU NOILE CÂMPURI */
         * {
             margin: 0;
             padding: 0;
@@ -223,7 +224,7 @@
             border-radius: 10px;
         }
 
-        /* Tab 1: Adaugă Medicație */
+        /* Tab 1: Adaugă Medicație - MODIFICAT pentru schema completă */
         .form-card {
             background: white;
             border-radius: 15px;
@@ -277,9 +278,93 @@
             border-color: #1a237e;
         }
 
-        .form-group textarea {
-            resize: none;
-            min-height: 60px;
+        /* Stiluri pentru secțiunea de înregistrări multiple (medicamente) */
+        .med-records-section {
+            background: #f8f9fc;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #e0e0e0;
+        }
+
+        .med-records-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .med-records-header h3 {
+            color: #1a237e;
+            font-size: 1.1rem;
+        }
+
+        .btn-add-record {
+            background: #1a237e;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .med-record-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            position: relative;
+        }
+
+        .med-record-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn-remove-record {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .row3 {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .col3 {
+            flex: 1;
+        }
+
+        .col3 label {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .col3 input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            text-align: center;
         }
 
         .btn-primary {
@@ -328,7 +413,7 @@
             color: white;
         }
 
-        /* Tab 2: Programul de Azi */
+        /* Tab 2: Programul de Azi (afișare adaptată) */
         .schedule-card {
             background: white;
             border-radius: 15px;
@@ -435,6 +520,11 @@
             color: #666;
             font-size: 0.85rem;
         }
+        .med-details small {
+            display: block;
+            font-size: 0.75rem;
+            color: #888;
+        }
 
         .med-actions {
             display: flex;
@@ -481,7 +571,7 @@
             flex-shrink: 0;
         }
 
-        /* Tab 3: Program Complet */
+        /* Tab 3: Program Complet (afișare adaptată) */
         .schedule-table {
             background: white;
             border-radius: 15px;
@@ -554,7 +644,7 @@
             color: #f44336;
         }
 
-        /* Alerts Section (now in Tab 3) */
+        /* Alerts Section */
         .alerts {
             background: white;
             border-radius: 12px;
@@ -687,8 +777,8 @@
             <div style="display: flex; align-items: center; justify-content: space-between;">
                 <h1>
                     <span>
-			    <img src="icons/icon-72x72.png" width="24px" height="24px" alt="icon">
-		    </span> 
+                            <img src="icons/icon-72x72.png" width="24px" height="24px" alt="icon">
+                    </span>
                     remedi
                 </h1>
                 <div class="connection-status" id="connectionStatus">
@@ -696,7 +786,7 @@
                     <span id="statusText">Online</span>
                 </div>
             </div>
-            <p>Sistem de administrare a medicației</p>
+            <p>Sistem de administrare a medicației (schema completă)</p>
         </div>
 
         <!-- Tab Container -->
@@ -716,57 +806,45 @@
 
             <!-- Tab Content -->
             <div class="tab-content">
-                <!-- Tab 1: Add Medication -->
+                <!-- Tab 1: Add Medication - MODIFICAT -->
                 <div class="tab-pane active" id="tab1">
                     <div class="form-card">
                         <h2>
                             <span>📋</span>
-                            Adaugă Medicație Nouă
+                            Adaugă Schema Completă
                         </h2>
-                        
+
                         <div class="form-scroll">
                             <div id="formMessage" class="hidden"></div>
 
+                            <!-- NUME PACIENT (obligatoriu, unic pe schemă) -->
                             <div class="form-group">
                                 <label for="patientName">Numele pacientului *</label>
                                 <input type="text" id="patientName" placeholder="ex: Ion Popescu">
                             </div>
 
-                            <div class="form-group">
-                                <label for="roomNumber">Număr salon/pat</label>
-                                <input type="text" id="roomNumber" placeholder="ex: 204B">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="medicationName">Medicație *</label>
-                                <input type="text" id="medicationName" placeholder="ex: Metformin">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="dosage">Dozaj</label>
-                                <input type="text" id="dosage" placeholder="ex: 500mg">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="scheduledTime">Oră administrare *</label>
-                                <input type="time" id="scheduledTime" value="08:00">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="instructions">Instrucțiuni speciale</label>
-                                <textarea id="instructions" placeholder="ex: Se administrează în timpul mesei" rows="2"></textarea>
+                            <!-- SECȚIUNE ÎNREGISTRĂRI MULTIPLE (MEDICAMENTE) -->
+                            <div class="med-records-section">
+                                <div class="med-records-header">
+                                    <h3>Medicamente & doze (zi)</h3>
+                                    <button type="button" class="btn-add-record" id="addRecordBtn">+</button>
+                                </div>
+                                <div id="medRecordsContainer">
+                                    <!-- Dinamically generated records will be inserted here -->
+                                </div>
+                                <small style="display: block; margin-top: 8px;">* Fiecare linie: nume medicament, unitate, dimineața, prânz, seara (nr. comprimate)</small>
                             </div>
                         </div>
 
-                        <button class="btn-primary" id="addMedicationBtn">Adaugă în Program</button>
-                        
+                        <button class="btn-primary" id="saveSchemaBtn">Salvează Schema</button>
+
                         <!-- Data management buttons -->
                         <div class="data-management">
                             <button class="btn-warning" id="loadSampleBtn">📋 Încarcă Exemplu</button>
                             <button class="btn-danger" id="clearAllBtn">🗑️ Șterge Tot</button>
                         </div>
                         <small style="display: block; text-align: center; margin-top: 8px;">
-                            💾 Datele se salvează automat
+                            💾 Datele se salvează automat (CRUD complet)
                         </small>
                     </div>
                 </div>
@@ -812,7 +890,7 @@
 
                 <!-- Tab 3: Complete Schedule -->
                 <div class="tab-pane" id="tab3">
-                    <!-- Alerts Section (moved to top of tab 3) -->
+                    <!-- Alerts Section -->
                     <div class="alerts">
                         <h3>
                             <span>🔔</span>
@@ -833,17 +911,18 @@
                             <table id="scheduleTable">
                                 <thead>
                                     <tr>
-                                        <th>Ora</th>
                                         <th>Pacient</th>
-                                        <th>Salon</th>
-                                        <th>Medicație</th>
-                                        <th>Dozaj</th>
+                                        <th>Medicament</th>
+                                        <th>Dim</th>
+                                        <th>Prânz</th>
+                                        <th>Seară</th>
                                         <th>Status</th>
+                                        <th>Acțiuni</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
                                     <tr>
-                                        <td colspan="6" style="text-align: center; color: #666; padding: 20px;">
+                                        <td colspan="7" style="text-align: center; color: #666; padding: 20px;">
                                             Nu există medicații programate
                                         </td>
                                     </tr>
@@ -857,913 +936,486 @@
 
         <!-- Footer -->
         <div class="footer">
-            remedi v1.0 - Verificați întotdeauna prescripțiile
+            remedi v2.0 - Schema completă (pacient + înregistrări multiple)
         </div>
     </div>
 
     <script>
-        // ========== STATE MANAGEMENT REFACTORING ==========
-        // Create a centralized state object with getters/setters
-        // Implement observer pattern for automatic UI updates
-        // Add data validation layer before state mutations
-        
-        // App State Module - Encapsulated and protected
-        const AppState = (function() {
-            // Private variables (truly private in closure)
-            let _medications = [];
-            let _nextId = 1;
-            
-            // Storage keys
-            const STORAGE_KEY = 'mediremind_medications';
-            const ID_KEY = 'mediremind_nextId';
-            
-            // Observers list for UI updates
-            const observers = [];
-            
-            // Validation rules
-            const validators = {
-                medication: function(med) {
-                    const errors = [];
-                    if (!med.patientName || med.patientName.trim() === '') {
-                        errors.push('Numele pacientului este obligatoriu');
-                    }
-                    if (!med.medicationName || med.medicationName.trim() === '') {
-                        errors.push('Denumirea medicației este obligatorie');
-                    }
-                    if (!med.scheduledTime || med.scheduledTime.trim() === '') {
-                        errors.push('Ora de administrare este obligatorie');
-                    }
-                    // Validate time format (HH:MM)
-                    if (med.scheduledTime && !/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(med.scheduledTime)) {
-                        errors.push('Formatul orei este invalid (HH:MM)');
-                    }
-                    return {
-                        isValid: errors.length === 0,
-                        errors: errors
-                    };
-                }
-            };
-            
-            // Load from storage on initialization
-            (function loadFromStorage() {
+        (function() {
+            // ========== STATE MANAGEMENT ==========
+            // Structură: array de pacienți, fiecare cu nume și un array de medicamente (schema)
+            let _patients = [];
+            let _nextPatientId = 1000; // ID pentru pacienți
+
+            const STORAGE_KEY = 'remedi_schema_completa';
+            const ID_KEY = 'remedi_next_patient_id';
+
+            // Încărcare inițială
+            function loadFromStorage() {
                 try {
-                    const savedMeds = localStorage.getItem(STORAGE_KEY);
+                    const saved = localStorage.getItem(STORAGE_KEY);
                     const savedId = localStorage.getItem(ID_KEY);
-                    
-                    if (savedMeds) {
-                        const parsed = JSON.parse(savedMeds);
-                        // Ensure all medications have required fields
-                        _medications = parsed.map(med => ({
-                            ...med,
-                            status: med.status || 'Pending'
-                        }));
-                    }
-                    
-                    if (savedId) {
-                        _nextId = parseInt(savedId) || 1;
-                    }
-                } catch (e) {
-                    console.error('Failed to load from localStorage:', e);
-                    _medications = [];
-                    _nextId = 1;
-                }
-            })();
-            
-            // Private save function
-            function _saveToStorage() {
-                try {
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(_medications));
-                    localStorage.setItem(ID_KEY, _nextId.toString());
-                    
-                    // Trigger background sync if online
-                    if (navigator.onLine && 'serviceWorker' in navigator && 'SyncManager' in window) {
-                        navigator.serviceWorker.ready.then(registration => {
-                            registration.sync.register('sync-medications');
+                    if (saved) {
+                        _patients = JSON.parse(saved);
+                        // Asigură existența câmpurilor
+                        _patients.forEach(patient => {
+                            if (!patient.medications) patient.medications = [];
+                            patient.medications.forEach(med => {
+                                if (!med.status) med.status = 'Pending';
+                                if (med.morning === undefined) med.morning = 0;
+                                if (med.noon === undefined) med.noon = 0;
+                                if (med.evening === undefined) med.evening = 0;
+                                if (!med.unit) med.unit = 'comprimate';
+                            });
                         });
                     }
-                    return true;
-                } catch (e) {
-                    console.error('Failed to save to localStorage:', e);
-                    return false;
-                }
+                    if (savedId) _nextPatientId = parseInt(savedId) || 1000;
+                } catch (e) {}
             }
-            
-            // Notify all observers of state change
-            function _notifyObservers(action, data) {
-                observers.forEach(observer => {
-                    try {
-                        observer(action, data);
-                    } catch (e) {
-                        console.error('Observer notification failed:', e);
-                    }
-                });
-            }
-            
-            // Public API
-            return {
-                // Subscribe to state changes
-                subscribe: function(observer) {
-                    if (typeof observer === 'function') {
-                        observers.push(observer);
-                    }
-                    return function unsubscribe() {
-                        const index = observers.indexOf(observer);
-                        if (index > -1) observers.splice(index, 1);
-                    };
-                },
-                
-                // Get all medications (returns a copy to prevent direct mutation)
-                getAll: function() {
-                    return _medications.map(med => ({ ...med })); // Return shallow copy
-                },
-                
-                // Get medication by id
-                getById: function(id) {
-                    const med = _medications.find(m => m.id === id);
-                    return med ? { ...med } : null;
-                },
-                
-                // Get metrics
-                getMetrics: function() {
-                    const totalPatients = new Set(_medications.map(m => m.patientName)).size;
-                    const totalMeds = _medications.length;
-                    const completed = _medications.filter(m => m.status === 'Given').length;
-                    const pending = _medications.filter(m => m.status === 'Pending').length;
-                    const snoozed = _medications.filter(m => m.status === 'Snoozed').length;
-                    
-                    return {
-                        totalPatients,
-                        totalMeds,
-                        completed,
-                        pending,
-                        snoozed
-                    };
-                },
-                
-                // Get sorted medications
-                getSorted: function(compareFn) {
-                    const copy = [..._medications];
-                    if (compareFn) {
-                        return copy.sort(compareFn);
-                    }
-                    // Default sort by time
-                    return copy.sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
-                },
-                
-                // Get medications by status
-                getByStatus: function(status) {
-                    return _medications.filter(m => m.status === status).map(m => ({ ...m }));
-                },
-                
-                // Add new medication with validation
-                add: function(medicationData) {
-                    // Create medication object with id
-                    const newMed = {
-                        id: _nextId++,
-                        patientName: (medicationData.patientName || '').trim(),
-                        roomNumber: (medicationData.roomNumber || '—').trim() || '—',
-                        medicationName: (medicationData.medicationName || '').trim(),
-                        dosage: (medicationData.dosage || '—').trim() || '—',
-                        scheduledTime: medicationData.scheduledTime,
-                        instructions: (medicationData.instructions || '—').trim() || '—',
-                        status: 'Pending'
-                    };
-                    
-                    // Validate
-                    const validation = validators.medication(newMed);
-                    if (!validation.isValid) {
-                        return {
-                            success: false,
-                            errors: validation.errors,
-                            medication: null
-                        };
-                    }
-                    
-                    // Add to state
-                    _medications.push(newMed);
-                    
-                    // Save to storage
-                    const saved = _saveToStorage();
-                    
-                    // Notify observers
-                    _notifyObservers('ADD', { medication: newMed });
-                    
-                    return {
-                        success: true,
-                        errors: [],
-                        medication: { ...newMed },
-                        saved: saved
-                    };
-                },
-                
-                // Update medication status with validation
-                updateStatus: function(id, newStatus) {
-                    // Validate status
-                    const validStatuses = ['Pending', 'Given', 'Snoozed'];
-                    if (!validStatuses.includes(newStatus)) {
-                        return {
-                            success: false,
-                            error: 'Status invalid',
-                            medication: null
-                        };
-                    }
-                    
-                    const index = _medications.findIndex(m => m.id === id);
-                    if (index === -1) {
-                        return {
-                            success: false,
-                            error: 'Medicația nu a fost găsită',
-                            medication: null
-                        };
-                    }
-                    
-                    // Store old value for rollback if needed
-                    const oldStatus = _medications[index].status;
-                    _medications[index].status = newStatus;
-                    
-                    // Save to storage
-                    const saved = _saveToStorage();
-                    
-                    if (!saved) {
-                        // Rollback on save failure
-                        _medications[index].status = oldStatus;
-                        return {
-                            success: false,
-                            error: 'Salvarea în stocare a eșuat',
-                            medication: null
-                        };
-                    }
-                    
-                    // Notify observers
-                    _notifyObservers('UPDATE_STATUS', { 
-                        id, 
-                        oldStatus, 
-                        newStatus,
-                        medication: { ..._medications[index] }
-                    });
-                    
-                    return {
-                        success: true,
-                        error: null,
-                        medication: { ..._medications[index] }
-                    };
-                },
-                
-                // Delete medications by filter
-                deleteWhere: function(filterFn) {
-                    const beforeCount = _medications.length;
-                    const deleted = _medications.filter(filterFn);
-                    
-                    if (deleted.length === 0) {
-                        return {
-                            success: true,
-                            count: 0,
-                            deleted: []
-                        };
-                    }
-                    
-                    _medications = _medications.filter(m => !filterFn(m));
-                    
-                    // Save to storage
-                    const saved = _saveToStorage();
-                    
-                    // Notify observers
-                    _notifyObservers('DELETE', { 
-                        count: beforeCount - _medications.length,
-                        deleted: deleted.map(m => ({ ...m }))
-                    });
-                    
-                    return {
-                        success: true,
-                        count: beforeCount - _medications.length,
-                        deleted: deleted.map(m => ({ ...m }))
-                    };
-                },
-                
-                // Clear all medications
-                clearAll: function() {
-                    const deleted = [..._medications];
-                    _medications = [];
-                    _nextId = 1;
-                    
-                    // Save to storage
-                    const saved = _saveToStorage();
-                    
-                    // Notify observers
-                    _notifyObservers('CLEAR_ALL', { 
-                        count: deleted.length,
-                        deleted: deleted.map(m => ({ ...m }))
-                    });
-                    
-                    return {
-                        success: true,
-                        count: deleted.length
-                    };
-                },
-                
-                // Load sample data
-                loadSample: function() {
-                    const sampleMeds = [
-                        {
-                            patientName: 'Ion Popescu',
-                            roomNumber: '204B',
-                            medicationName: 'Metformin',
-                            dosage: '500mg',
-                            scheduledTime: '08:00',
-                            instructions: 'Se administrează în timpul mesei'
-                        },
-                        {
-                            patientName: 'Maria Ionescu',
-                            roomNumber: '105A',
-                            medicationName: 'Lisinopril',
-                            dosage: '10mg',
-                            scheduledTime: '12:30',
-                            instructions: 'O dată pe zi'
-                        },
-                        {
-                            patientName: 'George Dumitrescu',
-                            roomNumber: '312',
-                            medicationName: 'Atorvastatin',
-                            dosage: '20mg',
-                            scheduledTime: '20:00',
-                            instructions: 'Se administrează seara'
-                        },
-                        {
-                            patientName: 'Elena Popa',
-                            roomNumber: '407',
-                            medicationName: 'Levothyroxină',
-                            dosage: '75mcg',
-                            scheduledTime: '07:00',
-                            instructions: 'Înainte de micul dejun'
-                        },
-                        {
-                            patientName: 'Vasile Stan',
-                            roomNumber: '218',
-                            medicationName: 'Amlodipină',
-                            dosage: '5mg',
-                            scheduledTime: '09:00',
-                            instructions: 'O dată pe zi'
-                        }
-                    ];
-                    
-                    // Clear existing first
-                    _medications = [];
-                    _nextId = 1;
-                    
-                    // Add samples
-                    const added = [];
-                    sampleMeds.forEach(data => {
-                        const newMed = {
-                            id: _nextId++,
-                            ...data,
-                            status: data.patientName === 'Vasile Stan' ? 'Given' : 'Pending'
-                        };
-                        _medications.push(newMed);
-                        added.push(newMed);
-                    });
-                    
-                    // Save to storage
-                    const saved = _saveToStorage();
-                    
-                    // Notify observers
-                    _notifyObservers('LOAD_SAMPLE', { 
-                        count: added.length,
-                        medications: added.map(m => ({ ...m }))
-                    });
-                    
-                    return {
-                        success: true,
-                        count: added.length
-                    };
-                },
-                
-                // Force refresh from storage (in case of external changes)
-                refresh: function() {
-                    try {
-                        const savedMeds = localStorage.getItem(STORAGE_KEY);
-                        const savedId = localStorage.getItem(ID_KEY);
-                        
-                        if (savedMeds) {
-                            _medications = JSON.parse(savedMeds);
-                        }
-                        
-                        if (savedId) {
-                            _nextId = parseInt(savedId) || 1;
-                        }
-                        
-                        _notifyObservers('REFRESH', {});
-                        return true;
-                    } catch (e) {
-                        console.error('Refresh failed:', e);
-                        return false;
-                    }
-                },
-                
-                // Get next available ID (for preview purposes)
-                getNextId: function() {
-                    return _nextId;
-                }
-            };
-        })();
+            loadFromStorage();
 
-        // ========== UI RENDERING MODULE ==========
-        // This module handles all UI updates and depends on AppState
-        const UIRenderer = (function() {
-            // DOM element references (cached for performance)
+            function saveToStorage() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(_patients));
+                    localStorage.setItem(ID_KEY, _nextPatientId.toString());
+                } catch (e) {}
+            }
+
+            // ========== HELPERS ==========
+            function generatePatientId() {
+                return _nextPatientId++;
+            }
+
+            // Obține toate înregistrările (medicamente) plate pentru afișare
+            function getAllFlatMeds() {
+                const flat = [];
+                _patients.forEach(patient => {
+                    patient.medications.forEach(med => {
+                        flat.push({
+                            patientId: patient.id,
+                            patientName: patient.patientName,
+                            medicationId: med.id,
+                            medicationName: med.name,
+                            unit: med.unit,
+                            morning: med.morning,
+                            noon: med.noon,
+                            evening: med.evening,
+                            status: med.status || 'Pending'
+                        });
+                    });
+                });
+                return flat;
+            }
+
+            // Actualizează statusul unui medicament (după patientId și medicationId)
+            function updateMedStatus(patientId, medicationId, newStatus) {
+                const patient = _patients.find(p => p.id === patientId);
+                if (!patient) return false;
+                const med = patient.medications.find(m => m.id === medicationId);
+                if (!med) return false;
+                med.status = newStatus;
+                saveToStorage();
+                return true;
+            }
+
+            // Șterge medicamente după filtru (folosit pentru "șterge administrate")
+            function deleteMedsWhere(filterFn) {
+                let deletedCount = 0;
+                _patients.forEach(patient => {
+                    const initialLength = patient.medications.length;
+                    patient.medications = patient.medications.filter(m => !filterFn(m, patient));
+                    deletedCount += (initialLength - patient.medications.length);
+                });
+                // Elimină pacienții fără medicamente? (opțional, păstrăm)
+                saveToStorage();
+                return deletedCount;
+            }
+
+            // ========== UI RENDER ==========
             const elements = {
-                // Metrics
                 totalPatients: document.getElementById('totalPatients'),
                 totalMeds: document.getElementById('totalMeds'),
                 completedCount: document.getElementById('completedCount'),
                 pendingCount: document.getElementById('pendingCount'),
-                
-                // Lists and tables
                 medicationList: document.getElementById('medicationList'),
                 tableBody: document.getElementById('tableBody'),
                 alertBox: document.getElementById('alertBox'),
                 formMessage: document.getElementById('formMessage'),
-                
-                // Form inputs
                 patientName: document.getElementById('patientName'),
-                roomNumber: document.getElementById('roomNumber'),
-                medicationName: document.getElementById('medicationName'),
-                dosage: document.getElementById('dosage'),
-                scheduledTime: document.getElementById('scheduledTime'),
-                instructions: document.getElementById('instructions')
+                medRecordsContainer: document.getElementById('medRecordsContainer'),
+                addRecordBtn: document.getElementById('addRecordBtn'),
+                saveSchemaBtn: document.getElementById('saveSchemaBtn'),
+                loadSampleBtn: document.getElementById('loadSampleBtn'),
+                clearAllBtn: document.getElementById('clearAllBtn'),
+                clearCompletedBtn: document.getElementById('clearCompletedBtn'),
+                checkAlertsBtn: document.getElementById('checkAlertsBtn')
             };
-            
-            // Helper: Show message in form
-            function showFormMessage(message, type) {
-                if (!elements.formMessage) return;
-                
-                elements.formMessage.textContent = message;
-                elements.formMessage.className = type === 'success' ? 'success-message' : 'error-message';
-                elements.formMessage.classList.remove('hidden');
-                
-                setTimeout(() => {
-                    elements.formMessage.classList.add('hidden');
-                }, 3000);
+
+            // Contor înregistrări dinamice (doar pentru UI)
+            let recordCounter = 0;
+
+            function createMedRecordHtml(recordId = null) {
+                const id = recordId || Date.now() + Math.random();
+                return `
+                    <div class="med-record-item" data-record-id="${id}">
+                        <button type="button" class="btn-remove-record" data-remove="${id}">✕</button>
+                        <div class="form-group">
+                            <label>Nume medicament *</label>
+                            <input type="text" class="med-name" placeholder="ex: Paracetamol" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Unitate (comprimate, ml, etc.)</label>
+                            <input type="text" class="med-unit" value="comprimate" placeholder="ex: comprimate">
+                        </div>
+                        <div class="row3">
+                            <div class="col3">
+                                <label>Dimineața</label>
+                                <input type="number" class="med-morning" value="0" min="0" step="0.5">
+                            </div>
+                            <div class="col3">
+                                <label>Prânz</label>
+                                <input type="number" class="med-noon" value="0" min="0" step="0.5">
+                            </div>
+                            <div class="col3">
+                                <label>Seara</label>
+                                <input type="number" class="med-evening" value="0" min="0" step="0.5">
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
-            
-            // Helper: Get current time formatted
-            function getCurrentTimeFormatted() {
-                const now = new Date();
-                return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+            function renderMedRecords() {
+                if (elements.medRecordsContainer) {
+                    elements.medRecordsContainer.innerHTML = createMedRecordHtml('init'); // un record implicit
+                }
             }
-            
-            // Render metrics
+            renderMedRecords();
+
+            // Evenimente pentru adăugare/ștergere înregistrări
+            if (elements.addRecordBtn) {
+                elements.addRecordBtn.addEventListener('click', function() {
+                    const container = document.getElementById('medRecordsContainer');
+                    if (container) {
+                        container.insertAdjacentHTML('beforeend', createMedRecordHtml());
+                    }
+                });
+            }
+
+            // Delegare pentru butoane remove
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('btn-remove-record')) {
+                    const recordId = e.target.dataset.remove;
+                    const recordDiv = document.querySelector(`.med-record-item[data-record-id="${recordId}"]`);
+                    if (recordDiv) {
+                        recordDiv.remove();
+                    }
+                }
+            });
+
+            // Funcție pentru a colecta datele din formular
+            function getFormSchema() {
+                const patientName = elements.patientName ? elements.patientName.value.trim() : '';
+                if (!patientName) return { error: 'Numele pacientului este obligatoriu' };
+
+                const recordItems = document.querySelectorAll('.med-record-item');
+                if (recordItems.length === 0) return { error: 'Adăugați cel puțin un medicament' };
+
+                const medications = [];
+                for (let item of recordItems) {
+                    const nameInput = item.querySelector('.med-name');
+                    const unitInput = item.querySelector('.med-unit');
+                    const morningInput = item.querySelector('.med-morning');
+                    const noonInput = item.querySelector('.med-noon');
+                    const eveningInput = item.querySelector('.med-evening');
+
+                    const name = nameInput ? nameInput.value.trim() : '';
+                    if (!name) {
+                        return { error: 'Toate medicamentele trebuie să aibă un nume' };
+                    }
+
+                    const unit = unitInput ? unitInput.value.trim() : 'comprimate';
+                    const morning = morningInput ? parseFloat(morningInput.value) || 0 : 0;
+                    const noon = noonInput ? parseFloat(noonInput.value) || 0 : 0;
+                    const evening = eveningInput ? parseFloat(eveningInput.value) || 0 : 0;
+
+                    medications.push({
+                        id: Date.now() + Math.random() + medications.length, // ID unic
+                        name: name,
+                        unit: unit,
+                        morning: morning,
+                        noon: noon,
+                        evening: evening,
+                        status: 'Pending'
+                    });
+                }
+
+                return {
+                    patientName,
+                    medications
+                };
+            }
+
+            // Salvare schemă (CREATE)
+            function saveSchema() {
+                const result = getFormSchema();
+                if (result.error) {
+                    showFormMessage(result.error, 'error');
+                    return;
+                }
+
+                const newPatient = {
+                    id: generatePatientId(),
+                    patientName: result.patientName,
+                    medications: result.medications
+                };
+
+                _patients.push(newPatient);
+                saveToStorage();
+                showFormMessage(`Schema pentru ${result.patientName} salvată cu succes (${result.medications.length} medicamente)`, 'success');
+                // Reset form
+                if (elements.patientName) elements.patientName.value = '';
+                renderMedRecords(); // reset la un singur record
+                renderAll();
+            }
+
+            // Șterge tot (CLEAR ALL)
+            function clearAll() {
+                if (confirm('Sigur doriți să ștergeți TOATE datele?')) {
+                    _patients = [];
+                    _nextPatientId = 1000;
+                    saveToStorage();
+                    renderAll();
+                    showFormMessage('Toate datele au fost șterse', 'success');
+                }
+            }
+
+            // Încarcă exemplu
+            function loadSample() {
+                if (confirm('Se vor înlocui datele existente. Continuați?')) {
+                    _patients = [
+                        {
+                            id: generatePatientId(),
+                            patientName: 'Ion Popescu',
+                            medications: [
+                                { id: 'm1', name: 'Metformin', unit: 'comprimate', morning: 1, noon: 1, evening: 1, status: 'Pending' },
+                                { id: 'm2', name: 'Vitamina D', unit: 'picături', morning: 0, noon: 10, evening: 0, status: 'Pending' }
+                            ]
+                        },
+                        {
+                            id: generatePatientId(),
+                            patientName: 'Maria Ionescu',
+                            medications: [
+                                { id: 'm3', name: 'Lisinopril', unit: 'comprimate', morning: 1, noon: 0, evening: 0, status: 'Given' },
+                                { id: 'm4', name: 'Atorvastatin', unit: 'comprimate', morning: 0, noon: 0, evening: 1, status: 'Snoozed' }
+                            ]
+                        }
+                    ];
+                    saveToStorage();
+                    renderAll();
+                    showFormMessage('Date exemplu încărcate', 'success');
+                }
+            }
+
+            // Șterge administrate (DELETE where status Given)
+            function clearCompleted() {
+                const deleted = deleteMedsWhere(m => m.status === 'Given');
+                if (deleted > 0) {
+                    showFormMessage(`${deleted} înregistrări șterse`, 'success');
+                    renderAll();
+                } else {
+                    showFormMessage('Nicio înregistrare administrată', 'success');
+                }
+            }
+
+            // Render metrici
             function renderMetrics() {
-                const metrics = AppState.getMetrics();
-                
-                if (elements.totalPatients) {
-                    elements.totalPatients.textContent = metrics.totalPatients;
-                }
-                if (elements.totalMeds) {
-                    elements.totalMeds.textContent = metrics.totalMeds;
-                }
-                if (elements.completedCount) {
-                    elements.completedCount.textContent = metrics.completed;
-                }
-                if (elements.pendingCount) {
-                    elements.pendingCount.textContent = metrics.pending;
-                }
+                const flat = getAllFlatMeds();
+                const uniquePatients = new Set(flat.map(m => m.patientName)).size;
+                const total = flat.length;
+                const completed = flat.filter(m => m.status === 'Given').length;
+                const pending = flat.filter(m => m.status === 'Pending').length;
+
+                if (elements.totalPatients) elements.totalPatients.textContent = uniquePatients;
+                if (elements.totalMeds) elements.totalMeds.textContent = total;
+                if (elements.completedCount) elements.completedCount.textContent = completed;
+                if (elements.pendingCount) elements.pendingCount.textContent = pending;
             }
-            
-            // Render actions for a medication (helper)
-            function renderActions(med) {
-                if (med.status === 'Pending') {
-                    return `
-                        <button class="btn-small btn-give" data-action="update-status" data-id="${med.id}" data-status="Given">✅ Administrat</button>
-                        <button class="btn-small btn-snooze" data-action="update-status" data-id="${med.id}" data-status="Snoozed">⏱️ Amână</button>
-                    `;
-                } else if (med.status === 'Given') {
-                    return `
-                        <span class="status-badge status-given">✓ Administrat</span>
-                        <button class="btn-small btn-undo" data-action="update-status" data-id="${med.id}" data-status="Pending">↩️ Anulează</button>
-                    `;
-                } else { // Snoozed
-                    return `
-                        <span class="status-badge status-snoozed">⏰ Amânat</span>
-                        <button class="btn-small btn-reset" data-action="update-status" data-id="${med.id}" data-status="Pending">↩️ Resetează</button>
-                    `;
-                }
-            }
-            
-            // Render medication list (Tab 2)
+
+            // Render listă azi (Tab 2) - afișăm fiecare medicament ca intrare separată
             function renderMedicationList() {
                 if (!elements.medicationList) return;
-                
-                const medications = AppState.getAll();
-                
-                if (medications.length === 0) {
+                const flat = getAllFlatMeds().sort((a,b)=> (a.medicationName || '').localeCompare(b.medicationName || ''));
+                if (flat.length === 0) {
                     elements.medicationList.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Nu există medicații programate.</div>';
                     return;
                 }
-                
-                // Sort by time
-                const sorted = medications.sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
-                
+
                 let html = '';
-                sorted.forEach(med => {
+                flat.forEach(m => {
+                    const statusClass = m.status ? m.status.toLowerCase() : 'pending';
                     html += `
-                        <div class="med-item ${med.status.toLowerCase()}">
+                        <div class="med-item ${statusClass}">
                             <div class="med-header">
-                                <span class="med-time">${med.scheduledTime}</span>
-                                <span class="med-patient">${med.patientName}</span>
+                                <span class="med-patient">${m.patientName}</span>
                             </div>
                             <div class="med-details">
-                                <strong>${med.medicationName} ${med.dosage}</strong><br>
-                                ${med.roomNumber}
+                                <strong>${m.medicationName}</strong> (${m.unit})<br>
+                                <small>Dim:${m.morning} | Prânz:${m.noon} | Seară:${m.evening}</small>
                             </div>
                             <div class="med-actions">
-                                ${renderActions(med)}
+                                ${m.status === 'Pending' ? 
+                                    `<button class="btn-small btn-give" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="give">✅ Administrat</button>
+                                     <button class="btn-small btn-snooze" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="snooze">⏱️ Amână</button>` :
+                                m.status === 'Given' ?
+                                    `<span class="status-badge status-given">✓ Administrat</span>
+                                     <button class="btn-small btn-undo" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="undo">↩️ Anulează</button>` :
+                                    `<span class="status-badge status-snoozed">⏰ Amânat</span>
+                                     <button class="btn-small btn-reset" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="reset">↩️ Resetează</button>`
+                                }
                             </div>
                         </div>
                     `;
                 });
-                
                 elements.medicationList.innerHTML = html;
             }
-            
-            // Render table (Tab 3)
+
+            // Render tabel complet (Tab 3)
             function renderTable() {
                 if (!elements.tableBody) return;
-                
-                const medications = AppState.getAll();
-                
-                if (medications.length === 0) {
-                    elements.tableBody.innerHTML = `
+                const flat = getAllFlatMeds().sort((a,b)=> (a.patientName || '').localeCompare(b.patientName || ''));
+                if (flat.length === 0) {
+                    elements.tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #666;">Nu există medicații programate</td></tr>';
+                    return;
+                }
+
+                let html = '';
+                flat.forEach(m => {
+                    const statusText = m.status === 'Given' ? 'Administrat' : (m.status === 'Snoozed' ? 'Amânat' : 'În așteptare');
+                    const statusClass = `status-badge status-${m.status ? m.status.toLowerCase() : 'pending'}`;
+                    html += `
                         <tr>
-                            <td colspan="6" style="text-align: center; color: #666; padding: 20px;">
-                                Nu există medicații programate
+                            <td>${m.patientName}</td>
+                            <td>${m.medicationName} (${m.unit})</td>
+                            <td>${m.morning}</td>
+                            <td>${m.noon}</td>
+                            <td>${m.evening}</td>
+                            <td><span class="${statusClass}">${statusText}</span></td>
+                            <td>
+                                <button class="btn-small btn-give" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="give">✅</button>
+                                <button class="btn-small btn-snooze" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="snooze">⏱️</button>
+                                <button class="btn-small btn-undo" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="undo">↩️</button>
                             </td>
                         </tr>
                     `;
-                    return;
-                }
-                
-                // Sort by time
-                const sorted = medications.sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime));
-                
-                let html = '';
-                sorted.forEach(med => {
-                    let statusText = 'În așteptare';
-                    if (med.status === 'Given') statusText = 'Administrat';
-                    if (med.status === 'Snoozed') statusText = 'Amânat';
-                    
-                    const statusClass = `status-badge status-${med.status.toLowerCase()}`;
-                    html += `
-                        <tr>
-                            <td>${med.scheduledTime}</td>
-                            <td>${med.patientName}</td>
-                            <td>${med.roomNumber}</td>
-                            <td>${med.medicationName}</td>
-                            <td>${med.dosage}</td>
-                            <td><span class="${statusClass}">${statusText}</span></td>
-                        </tr>
-                    `;
                 });
-                
                 elements.tableBody.innerHTML = html;
             }
-            
-            // Render alerts (Tab 3)
+
+            // Render alerte
             function renderAlerts() {
                 if (!elements.alertBox) return;
-                
-                const currentTime = getCurrentTimeFormatted();
-                const medications = AppState.getAll();
-                
-                const dueMeds = medications.filter(m => 
-                    m.scheduledTime === currentTime && m.status === 'Pending'
-                );
-                
-                if (dueMeds.length > 0) {
-                    let alertHtml = '';
-                    dueMeds.forEach(med => {
-                        alertHtml += `<div class="alert-item alert-critical">🔴 <strong>ACUM:</strong> ${med.medicationName} - ${med.patientName}</div>`;
+                const flat = getAllFlatMeds().filter(m => m.status === 'Pending');
+                if (flat.length > 0) {
+                    const top = flat.slice(0, 5);
+                    let alertHtml = '<div class="alert-item alert-critical">🔴 În așteptare:</div>';
+                    top.forEach(m => {
+                        alertHtml += `<div class="alert-item"> • ${m.patientName} - ${m.medicationName} (D${m.morning} P${m.noon} S${m.evening})</div>`;
                     });
                     elements.alertBox.innerHTML = alertHtml;
-                    
-                    // Trigger notification
-                    triggerNotification();
                 } else {
-                    const upcoming = medications
-                        .filter(m => m.status === 'Pending')
-                        .sort((a, b) => a.scheduledTime.localeCompare(b.scheduledTime))
-                        .slice(0, 3);
-                    
-                    if (upcoming.length > 0) {
-                        let upcomingHtml = '<div class="alert-item">📌 <strong>Următoarele:</strong></div>';
-                        upcoming.forEach(med => {
-                            upcomingHtml += `<div class="alert-item">  • ${med.scheduledTime} - ${med.patientName}: ${med.medicationName}</div>`;
-                        });
-                        elements.alertBox.innerHTML = upcomingHtml;
-                    } else {
-                        elements.alertBox.innerHTML = '<div class="alert-item">✅ Toate medicațiile sunt la zi</div>';
-                    }
+                    elements.alertBox.innerHTML = '<div class="alert-item">✅ Toate medicațiile sunt la zi</div>';
                 }
             }
-            
-            // Trigger browser notification
-            function triggerNotification() {
-                // Visual feedback
-                if (elements.alertBox) {
-                    elements.alertBox.style.transition = 'background-color 0.5s';
-                    elements.alertBox.style.backgroundColor = '#ffebee';
-                    setTimeout(() => {
-                        if (elements.alertBox) {
-                            elements.alertBox.style.backgroundColor = '#f8f9fa';
-                        }
-                    }, 500);
-                }
-                
-                // Browser notification
-                if (Notification.permission === 'granted') {
-                    new Notification('🔔 Atenție! Medicații de administrat!', {
-                        body: 'Verificați secțiunea de alerte',
-                        icon: 'icons/icon-192x192.png'
-                    });
-                } else if (Notification.permission !== 'denied') {
-                    Notification.requestPermission();
-                }
-            }
-            
-            // Clear form inputs
-            function clearForm() {
-                if (elements.patientName) elements.patientName.value = '';
-                if (elements.roomNumber) elements.roomNumber.value = '';
-                if (elements.medicationName) elements.medicationName.value = '';
-                if (elements.dosage) elements.dosage.value = '';
-                if (elements.instructions) elements.instructions.value = '';
-                // Keep time field as is
-            }
-            
-            // Public API
-            return {
-                renderAll: function() {
-                    renderMetrics();
-                    renderMedicationList();
-                    renderTable();
-                    renderAlerts();
-                },
-                
-                renderMetrics: renderMetrics,
-                renderMedicationList: renderMedicationList,
-                renderTable: renderTable,
-                renderAlerts: renderAlerts,
-                showFormMessage: showFormMessage,
-                clearForm: clearForm,
-                getCurrentTimeFormatted: getCurrentTimeFormatted,
-                
-                // Get form data for adding medication
-                getFormData: function() {
-                    return {
-                        patientName: elements.patientName ? elements.patientName.value : '',
-                        roomNumber: elements.roomNumber ? elements.roomNumber.value : '',
-                        medicationName: elements.medicationName ? elements.medicationName.value : '',
-                        dosage: elements.dosage ? elements.dosage.value : '',
-                        scheduledTime: elements.scheduledTime ? elements.scheduledTime.value : '',
-                        instructions: elements.instructions ? elements.instructions.value : ''
-                    };
-                }
-            };
-        })();
 
-        // ========== EVENT HANDLERS MODULE ==========
-        // This module sets up all event listeners and handles user interactions
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize UI
-            UIRenderer.renderAll();
-            
-            // Subscribe to state changes for automatic UI updates
-            AppState.subscribe(function(action, data) {
-                console.log(`State changed: ${action}`, data);
-                UIRenderer.renderAll();
-                
-                // Show feedback for certain actions
-                if (action === 'ADD' && data.medication) {
-                    UIRenderer.showFormMessage(`✅ ${data.medication.medicationName} adăugat pentru ${data.medication.patientName}`, 'success');
-                } else if (action === 'CLEAR_ALL') {
-                    UIRenderer.showFormMessage('Toate datele au fost șterse', 'success');
-                } else if (action === 'LOAD_SAMPLE') {
-                    UIRenderer.showFormMessage('Date exemplu încărcate', 'success');
-                } else if (action === 'DELETE' && data.count > 0) {
-                    UIRenderer.showFormMessage(`${data.count} element(e) șterse`, 'success');
-                }
-            });
-            
-            // ========== TAB SWITCHING ==========
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabPanes = document.querySelectorAll('.tab-pane');
-            
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const tabNumber = parseInt(this.dataset.tab);
-                    
-                    // Update button states
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Update pane states
-                    tabPanes.forEach((pane, index) => {
-                        if (index === tabNumber - 1) {
-                            pane.classList.add('active');
-                        } else {
-                            pane.classList.remove('active');
-                        }
-                    });
+            function showFormMessage(msg, type) {
+                if (!elements.formMessage) return;
+                elements.formMessage.textContent = msg;
+                elements.formMessage.className = type === 'success' ? 'success-message' : 'error-message';
+                elements.formMessage.classList.remove('hidden');
+                setTimeout(() => elements.formMessage.classList.add('hidden'), 3000);
+            }
+
+            function renderAll() {
+                renderMetrics();
+                renderMedicationList();
+                renderTable();
+                renderAlerts();
+            }
+
+            // ========== EVENIMENTE ==========
+            if (elements.saveSchemaBtn) {
+                elements.saveSchemaBtn.addEventListener('click', saveSchema);
+            }
+
+            if (elements.clearAllBtn) {
+                elements.clearAllBtn.addEventListener('click', clearAll);
+            }
+
+            if (elements.loadSampleBtn) {
+                elements.loadSampleBtn.addEventListener('click', loadSample);
+            }
+
+            if (elements.clearCompletedBtn) {
+                elements.clearCompletedBtn.addEventListener('click', clearCompleted);
+            }
+
+            if (elements.checkAlertsBtn) {
+                elements.checkAlertsBtn.addEventListener('click', () => {
+                    renderAlerts();
+                    showFormMessage('Alerte actualizate', 'success');
                 });
-            });
-            
-            // ========== ADD MEDICATION ==========
-            const addButton = document.getElementById('addMedicationBtn');
-            if (addButton) {
-                addButton.addEventListener('click', function() {
-                    const formData = UIRenderer.getFormData();
-                    
-                    // Basic validation (additional validation in state)
-                    if (!formData.patientName || !formData.medicationName || !formData.scheduledTime) {
-                        UIRenderer.showFormMessage('Nume pacient, medicație și ora sunt obligatorii', 'error');
-                        return;
-                    }
-                    
-                    const result = AppState.add(formData);
-                    
-                    if (result.success) {
-                        UIRenderer.clearForm();
-                        // UI is updated automatically via observer
+            }
+
+            // Delegare pentru acțiuni pe medicamente (update status)
+            document.addEventListener('click', function(e) {
+                const btn = e.target.closest('button[data-action]');
+                if (!btn) return;
+                const patientId = parseFloat(btn.dataset.patient);
+                const medId = btn.dataset.med;
+                const action = btn.dataset.action;
+                let newStatus = null;
+                if (action === 'give') newStatus = 'Given';
+                else if (action === 'snooze') newStatus = 'Snoozed';
+                else if (action === 'undo' || action === 'reset') newStatus = 'Pending';
+
+                if (patientId && medId && newStatus) {
+                    const success = updateMedStatus(patientId, medId, newStatus);
+                    if (success) {
+                        showFormMessage('Status actualizat', 'success');
+                        renderAll();
                     } else {
-                        UIRenderer.showFormMessage(result.errors.join(', '), 'error');
+                        showFormMessage('Eroare actualizare', 'error');
                     }
-                });
-            }
-            
-            // ========== LOAD SAMPLE DATA ==========
-            const sampleButton = document.getElementById('loadSampleBtn');
-            if (sampleButton) {
-                sampleButton.addEventListener('click', function() {
-                    if (confirm('Se vor înlocui datele existente. Continuați?')) {
-                        AppState.loadSample();
-                    }
-                });
-            }
-            
-            // ========== CLEAR ALL DATA ==========
-            const clearButton = document.getElementById('clearAllBtn');
-            if (clearButton) {
-                clearButton.addEventListener('click', function() {
-                    if (confirm('Sigur doriți să ștergeți TOATE datele?')) {
-                        AppState.clearAll();
-                    }
-                });
-            }
-            
-            // ========== CLEAR COMPLETED ==========
-            const clearCompletedButton = document.getElementById('clearCompletedBtn');
-            if (clearCompletedButton) {
-                clearCompletedButton.addEventListener('click', function() {
-                    const result = AppState.deleteWhere(med => med.status === 'Given');
-                    if (result.count > 0) {
-                        UIRenderer.showFormMessage(`${result.count} element(e) șterse`, 'success');
-                    }
-                });
-            }
-            
-            // ========== CHECK ALERTS ==========
-            const checkAlertsButton = document.getElementById('checkAlertsBtn');
-            if (checkAlertsButton) {
-                checkAlertsButton.addEventListener('click', function() {
-                    UIRenderer.renderAlerts();
-                    UIRenderer.showFormMessage('Alerte actualizate', 'success');
-                });
-            }
-            
-            // ========== EVENT DELEGATION FOR DYNAMIC BUTTONS ==========
-            // Medication list (Tab 2) action buttons
-            const medicationList = document.getElementById('medicationList');
-            if (medicationList) {
-                medicationList.addEventListener('click', function(e) {
-                    const button = e.target.closest('button[data-action="update-status"]');
-                    if (!button) return;
-                    
-                    const id = parseInt(button.dataset.id);
-                    const status = button.dataset.status;
-                    
-                    if (id && status) {
-                        const result = AppState.updateStatus(id, status);
-                        if (!result.success) {
-                            UIRenderer.showFormMessage(result.error, 'error');
-                        }
-                    }
-                });
-            }
-            
-            // ========== PWA INSTALLATION ==========
-            let deferredPrompt;
-            const installPrompt = document.getElementById('installPrompt');
-            const installButton = document.getElementById('installButton');
-            const dismissInstall = document.getElementById('dismissInstall');
-            
-            // Check if app is already installed
-            if (window.matchMedia('(display-mode: standalone)').matches) {
-                if (installPrompt) installPrompt.classList.remove('show');
-            }
-            
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                
-                if (!localStorage.getItem('installDismissed')) {
-                    if (installPrompt) installPrompt.classList.add('show');
                 }
             });
-            
-            if (installButton) {
-                installButton.addEventListener('click', async () => {
-                    if (!deferredPrompt) return;
-                    
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    
-                    if (outcome === 'accepted') {
-                        console.log('App installed');
-                        if (installPrompt) installPrompt.classList.remove('show');
-                    }
-                    
-                    deferredPrompt = null;
-                });
-            }
-            
-            if (dismissInstall) {
-                dismissInstall.addEventListener('click', () => {
-                    if (installPrompt) installPrompt.classList.remove('show');
-                    localStorage.setItem('installDismissed', 'true');
-                });
-            }
-            
-            // ========== ONLINE/OFFLINE DETECTION ==========
+
+            // Inițializare
+            renderAll();
+
+            // ===== Online/Offline & Service Worker (păstrat) =====
             function updateOnlineStatus() {
-                const statusIndicator = document.getElementById('statusIndicator');
-                const statusText = document.getElementById('statusText');
-                const offlineBanner = document.getElementById('offlineBanner');
-                
+                const ind = document.getElementById('statusIndicator');
+                const txt = document.getElementById('statusText');
+                const banner = document.getElementById('offlineBanner');
                 if (navigator.onLine) {
-                    if (statusIndicator) {
-                        statusIndicator.className = 'status-indicator status-online';
-                    }
-                    if (statusText) {
-                        statusText.textContent = 'Online';
-                    }
-                    if (offlineBanner) {
-                        offlineBanner.classList.remove('show');
-                    }
+                    if (ind) ind.className = 'status-indicator status-online';
+                    if (txt) txt.textContent = 'Online';
+                    if (banner) banner.classList.remove('show');
                 } else {
-                    if (statusIndicator) {
-                        statusIndicator.className = 'status-indicator status-offline';
-                    }
-                    if (statusText) {
-                        statusText.textContent = 'Offline';
-                    }
-                    if (offlineBanner) {
-                        offlineBanner.classList.add('show');
-                    }
+                    if (ind) ind.className = 'status-indicator status-offline';
+                    if (txt) txt.textContent = 'Offline';
+                    if (banner) banner.classList.add('show');
                 }
             }
-            
             window.addEventListener('online', updateOnlineStatus);
             window.addEventListener('offline', updateOnlineStatus);
             updateOnlineStatus();
-            
-            // ========== AUTO-REFRESH ==========
-            // Check alerts every minute
-            setInterval(() => {
-                UIRenderer.renderAlerts();
-            }, 60000);
-            
-            // Request notification permission
-            if ('Notification' in window) {
-                Notification.requestPermission();
-            }
-            
-            // ========== SERVICE WORKER REGISTRATION ==========
+
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registered: ', registration);
-                    })
-                    .catch(error => {
-                        console.log('ServiceWorker registration failed: ', error);
-                    });
-                
-                navigator.serviceWorker.addEventListener('message', event => {
-                    if (event.data.type === 'SYNC_COMPLETED') {
-                        UIRenderer.showFormMessage(event.data.message, 'success');
-                    }
-                });
+                navigator.serviceWorker.register('sw.js').catch(console.log);
             }
-        });
+        })();
     </script>
 </body>
 </html>
