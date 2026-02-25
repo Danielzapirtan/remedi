@@ -263,7 +263,7 @@
             font-size: 0.85rem;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input {
             width: 100%;
             padding: 8px 10px;
             border: 2px solid #e0e0e0;
@@ -272,7 +272,7 @@
             transition: border-color 0.3s;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
+        .form-group input:focus {
             outline: none;
             border-color: #1a237e;
         }
@@ -440,7 +440,7 @@
 
         .metrics {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 8px;
             margin-bottom: 15px;
             flex-shrink: 0;
@@ -483,16 +483,8 @@
             border-bottom: none;
         }
 
-        .med-item.pending {
+        .med-item.scheduled {
             background: #fff3e0;
-        }
-
-        .med-item.given {
-            background: #e8f5e8;
-        }
-
-        .med-item.snoozed {
-            background: #ffebee;
         }
 
         .med-header {
@@ -519,46 +511,6 @@
             display: block;
             font-size: 0.75rem;
             color: #888;
-        }
-
-        .med-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .btn-small {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-
-        .btn-give {
-            background: #4caf50;
-            color: white;
-        }
-
-        .btn-snooze {
-            background: #ff9800;
-            color: white;
-        }
-
-        .btn-undo {
-            background: #9e9e9e;
-            color: white;
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-            border: none;
-            padding: 8px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            flex-shrink: 0;
         }
 
         /* Tab 3: Program Complet */
@@ -609,29 +561,6 @@
         td {
             padding: 8px 6px;
             border-bottom: 1px solid #e0e0e0;
-        }
-
-        .status-badge {
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            display: inline-block;
-        }
-
-        .status-pending {
-            background: #fff3e0;
-            color: #ff9800;
-        }
-
-        .status-given {
-            background: #e8f5e8;
-            color: #4caf50;
-        }
-
-        .status-snoozed {
-            background: #ffebee;
-            color: #f44336;
         }
 
         /* Delete Patient Section */
@@ -775,7 +704,7 @@
                     <span id="statusText">Online</span>
                 </div>
             </div>
-            <p>Sistem de administrare a medicației (schema completă)</p>
+            <p>Sistem de administrare a medicației (dozaj în miligrame)</p>
         </div>
 
         <!-- Tab Container -->
@@ -815,13 +744,13 @@
                             <!-- SECȚIUNE ÎNREGISTRĂRI MULTIPLE -->
                             <div class="med-records-section">
                                 <div class="med-records-header">
-                                    <h3>Medicamente & doze (zi)</h3>
+                                    <h3>Medicamente & dozaj (mg)</h3>
                                     <button type="button" class="btn-add-record" id="addRecordBtn">+</button>
                                 </div>
                                 <div id="medRecordsContainer">
                                     <!-- Dinamically generated records will be inserted here -->
                                 </div>
-                                <small style="display: block; margin-top: 8px;">* Fiecare linie: nume medicament, unitate, dimineața, prânz, seara (nr. comprimate)</small>
+                                <small style="display: block; margin-top: 8px;">* Fiecare linie: nume medicament, dozaj per comprimat (mg), dimineața, prânz, seara (nr. comprimate)</small>
                             </div>
                         </div>
 
@@ -853,16 +782,12 @@
                                 <div class="metric-value" id="totalPatients">0</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-label">Total</div>
+                                <div class="metric-label">Total Med.</div>
                                 <div class="metric-value" id="totalMeds">0</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-label">Administrate</div>
-                                <div class="metric-value" id="completedCount">0</div>
-                            </div>
-                            <div class="metric">
-                                <div class="metric-label">În Așteptare</div>
-                                <div class="metric-value" id="pendingCount">0</div>
+                                <div class="metric-label">Total mg/zi</div>
+                                <div class="metric-value" id="totalMg">0</div>
                             </div>
                         </div>
 
@@ -872,14 +797,12 @@
                                 Nu există medicații programate.
                             </div>
                         </div>
-
-                        <button class="btn-secondary" id="clearCompletedBtn">🗑️ Șterge Administrate</button>
                     </div>
                 </div>
 
                 <!-- Tab 3: Complete Schedule -->
                 <div class="tab-pane" id="tab3">
-                    <!-- Delete Patient Section (NEW) -->
+                    <!-- Delete Patient Section -->
                     <div class="delete-patient-section">
                         <h3>
                             <span>🗑️</span>
@@ -902,11 +825,11 @@
                                     <tr>
                                         <th>Pacient</th>
                                         <th>Medicament</th>
+                                        <th>mg/comprimat</th>
                                         <th>Dim</th>
                                         <th>Prânz</th>
                                         <th>Seară</th>
-                                        <th>Status</th>
-                                        <th>Acțiuni</th>
+                                        <th>Total mg/zi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
@@ -925,7 +848,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            remedi v2.0 - Schema completă (pacient + înregistrări multiple)
+            remedi v2.0 - Dozaj în miligrame
         </div>
     </div>
 
@@ -948,11 +871,10 @@
                         _patients.forEach(patient => {
                             if (!patient.medications) patient.medications = [];
                             patient.medications.forEach(med => {
-                                if (!med.status) med.status = 'Pending';
                                 if (med.morning === undefined) med.morning = 0;
                                 if (med.noon === undefined) med.noon = 0;
                                 if (med.evening === undefined) med.evening = 0;
-                                if (!med.unit) med.unit = 'comprimate';
+                                if (!med.mgPerTablet) med.mgPerTablet = 0;
                             });
                         });
                     }
@@ -1012,39 +934,17 @@
                             patientName: patient.patientName,
                             medicationId: med.id,
                             medicationName: med.name,
-                            unit: med.unit,
+                            mgPerTablet: med.mgPerTablet || 0,
                             morning: med.morning,
                             noon: med.noon,
                             evening: med.evening,
-                            status: med.status || 'Pending'
+                            totalMg: (med.morning + med.noon + med.evening) * (med.mgPerTablet || 0)
                         });
                     });
                 });
                 return flat;
             }
 
-            function updateMedStatus(patientId, medicationId, newStatus) {
-                const patient = _patients.find(p => p.id === patientId);
-                if (!patient) return false;
-                const med = patient.medications.find(m => m.id === medicationId);
-                if (!med) return false;
-                med.status = newStatus;
-                saveToStorage();
-                return true;
-            }
-
-            function deleteMedsWhere(filterFn) {
-                let deletedCount = 0;
-                _patients.forEach(patient => {
-                    const initialLength = patient.medications.length;
-                    patient.medications = patient.medications.filter(m => !filterFn(m, patient));
-                    deletedCount += (initialLength - patient.medications.length);
-                });
-                saveToStorage();
-                return deletedCount;
-            }
-
-            // NEW: Delete patient by name
             function deletePatientByName(patientName) {
                 if (!patientName) return false;
                 
@@ -1062,8 +962,7 @@
             const elements = {
                 totalPatients: document.getElementById('totalPatients'),
                 totalMeds: document.getElementById('totalMeds'),
-                completedCount: document.getElementById('completedCount'),
-                pendingCount: document.getElementById('pendingCount'),
+                totalMg: document.getElementById('totalMg'),
                 medicationList: document.getElementById('medicationList'),
                 tableBody: document.getElementById('tableBody'),
                 formMessage: document.getElementById('formMessage'),
@@ -1073,7 +972,6 @@
                 saveSchemaBtn: document.getElementById('saveSchemaBtn'),
                 loadSampleBtn: document.getElementById('loadSampleBtn'),
                 clearAllBtn: document.getElementById('clearAllBtn'),
-                clearCompletedBtn: document.getElementById('clearCompletedBtn'),
                 patientSelect: document.getElementById('patientSelect'),
                 deletePatientBtn: document.getElementById('deletePatientBtn')
             };
@@ -1088,20 +986,20 @@
                             <input type="text" class="med-name" placeholder="ex: Paracetamol" required>
                         </div>
                         <div class="form-group">
-                            <label>Unitate (comprimate, ml, etc.)</label>
-                            <input type="text" class="med-unit" value="comprimate" placeholder="ex: comprimate">
+                            <label>Dozaj (mg per comprimat) *</label>
+                            <input type="number" class="med-mg" value="500" min="0" step="1" placeholder="ex: 500">
                         </div>
                         <div class="row3">
                             <div class="col3">
-                                <label>Dimineața</label>
+                                <label>Dimineața (nr. compr.)</label>
                                 <input type="number" class="med-morning" value="0" min="0" step="0.5">
                             </div>
                             <div class="col3">
-                                <label>Prânz</label>
+                                <label>Prânz (nr. compr.)</label>
                                 <input type="number" class="med-noon" value="0" min="0" step="0.5">
                             </div>
                             <div class="col3">
-                                <label>Seara</label>
+                                <label>Seara (nr. compr.)</label>
                                 <input type="number" class="med-evening" value="0" min="0" step="0.5">
                             </div>
                         </div>
@@ -1145,7 +1043,7 @@
                 const medications = [];
                 for (let item of recordItems) {
                     const nameInput = item.querySelector('.med-name');
-                    const unitInput = item.querySelector('.med-unit');
+                    const mgInput = item.querySelector('.med-mg');
                     const morningInput = item.querySelector('.med-morning');
                     const noonInput = item.querySelector('.med-noon');
                     const eveningInput = item.querySelector('.med-evening');
@@ -1155,7 +1053,7 @@
                         return { error: 'Toate medicamentele trebuie să aibă un nume' };
                     }
 
-                    const unit = unitInput ? unitInput.value.trim() : 'comprimate';
+                    const mgPerTablet = mgInput ? parseFloat(mgInput.value) || 0 : 0;
                     const morning = morningInput ? parseFloat(morningInput.value) || 0 : 0;
                     const noon = noonInput ? parseFloat(noonInput.value) || 0 : 0;
                     const evening = eveningInput ? parseFloat(eveningInput.value) || 0 : 0;
@@ -1163,11 +1061,10 @@
                     medications.push({
                         id: Date.now() + Math.random() + medications.length,
                         name: name,
-                        unit: unit,
+                        mgPerTablet: mgPerTablet,
                         morning: morning,
                         noon: noon,
-                        evening: evening,
-                        status: 'Pending'
+                        evening: evening
                     });
                 }
 
@@ -1218,16 +1115,16 @@
                             id: generatePatientId(),
                             patientName: 'Ion Popescu',
                             medications: [
-                                { id: 'm1', name: 'Metformin', unit: 'comprimate', morning: 1, noon: 1, evening: 1, status: 'Pending' },
-                                { id: 'm2', name: 'Vitamina D', unit: 'picături', morning: 0, noon: 10, evening: 0, status: 'Pending' }
+                                { id: 'm1', name: 'Metformin', mgPerTablet: 500, morning: 1, noon: 1, evening: 1 },
+                                { id: 'm2', name: 'Vitamina D', mgPerTablet: 1000, morning: 0, noon: 1, evening: 0 }
                             ]
                         },
                         {
                             id: generatePatientId(),
                             patientName: 'Maria Ionescu',
                             medications: [
-                                { id: 'm3', name: 'Lisinopril', unit: 'comprimate', morning: 1, noon: 0, evening: 0, status: 'Given' },
-                                { id: 'm4', name: 'Atorvastatin', unit: 'comprimate', morning: 0, noon: 0, evening: 1, status: 'Snoozed' }
+                                { id: 'm3', name: 'Lisinopril', mgPerTablet: 10, morning: 1, noon: 0, evening: 0 },
+                                { id: 'm4', name: 'Atorvastatin', mgPerTablet: 20, morning: 0, noon: 0, evening: 1 }
                             ]
                         }
                     ];
@@ -1238,18 +1135,6 @@
                 }
             }
 
-            function clearCompleted() {
-                const deleted = deleteMedsWhere(m => m.status === 'Given');
-                if (deleted > 0) {
-                    showFormMessage(`${deleted} înregistrări șterse`, 'success');
-                    renderAll();
-                    updatePatientSelect();
-                } else {
-                    showFormMessage('Nicio înregistrare administrată', 'success');
-                }
-            }
-
-            // NEW: Handle delete patient
             function handleDeletePatient() {
                 const selectedPatient = elements.patientSelect ? elements.patientSelect.value : '';
                 if (!selectedPatient) {
@@ -1269,7 +1154,6 @@
                 }
             }
 
-            // NEW: Update patient select dropdown
             function updatePatientSelect() {
                 if (!elements.patientSelect) return;
                 
@@ -1287,18 +1171,16 @@
                 const flat = getAllFlatMeds();
                 const uniquePatients = new Set(flat.map(m => m.patientName)).size;
                 const total = flat.length;
-                const completed = flat.filter(m => m.status === 'Given').length;
-                const pending = flat.filter(m => m.status === 'Pending').length;
+                const totalMg = flat.reduce((sum, m) => sum + (m.totalMg || 0), 0);
 
                 if (elements.totalPatients) elements.totalPatients.textContent = uniquePatients;
                 if (elements.totalMeds) elements.totalMeds.textContent = total;
-                if (elements.completedCount) elements.completedCount.textContent = completed;
-                if (elements.pendingCount) elements.pendingCount.textContent = pending;
+                if (elements.totalMg) elements.totalMg.textContent = totalMg;
             }
 
             function renderMedicationList() {
                 if (!elements.medicationList) return;
-                const flat = getAllFlatMeds().sort((a,b)=> (a.medicationName || '').localeCompare(b.medicationName || ''));
+                const flat = getAllFlatMeds().sort((a,b)=> (a.patientName || '').localeCompare(b.patientName || ''));
                 if (flat.length === 0) {
                     elements.medicationList.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Nu există medicații programate.</div>';
                     return;
@@ -1306,26 +1188,14 @@
 
                 let html = '';
                 flat.forEach(m => {
-                    const statusClass = m.status ? m.status.toLowerCase() : 'pending';
                     html += `
-                        <div class="med-item ${statusClass}">
+                        <div class="med-item scheduled">
                             <div class="med-header">
                                 <span class="med-patient">${m.patientName}</span>
                             </div>
                             <div class="med-details">
-                                <strong>${m.medicationName}</strong> (${m.unit})<br>
-                                <small>Dim:${m.morning} | Prânz:${m.noon} | Seară:${m.evening}</small>
-                            </div>
-                            <div class="med-actions">
-                                ${m.status === 'Pending' ? 
-                                    `<button class="btn-small btn-give" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="give">✅ Administrat</button>
-                                     <button class="btn-small btn-snooze" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="snooze">⏱️ Amână</button>` :
-                                m.status === 'Given' ?
-                                    `<span class="status-badge status-given">✓ Administrat</span>
-                                     <button class="btn-small btn-undo" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="undo">↩️ Anulează</button>` :
-                                    `<span class="status-badge status-snoozed">⏰ Amânat</span>
-                                     <button class="btn-small btn-undo" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="undo">↩️ Resetează</button>`
-                                }
+                                <strong>${m.medicationName}</strong> (${m.mgPerTablet} mg/comprimat)<br>
+                                <small>Dim:${m.morning} | Prânz:${m.noon} | Seară:${m.evening} compr. | Total: ${m.totalMg} mg</small>
                             </div>
                         </div>
                     `;
@@ -1343,21 +1213,15 @@
 
                 let html = '';
                 flat.forEach(m => {
-                    const statusText = m.status === 'Given' ? 'Administrat' : (m.status === 'Snoozed' ? 'Amânat' : 'În așteptare');
-                    const statusClass = `status-badge status-${m.status ? m.status.toLowerCase() : 'pending'}`;
                     html += `
                         <tr>
                             <td>${m.patientName}</td>
-                            <td>${m.medicationName} (${m.unit})</td>
+                            <td>${m.medicationName}</td>
+                            <td>${m.mgPerTablet} mg</td>
                             <td>${m.morning}</td>
                             <td>${m.noon}</td>
                             <td>${m.evening}</td>
-                            <td><span class="${statusClass}">${statusText}</span></td>
-                            <td>
-                                <button class="btn-small btn-give" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="give">✅</button>
-                                <button class="btn-small btn-snooze" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="snooze">⏱️</button>
-                                <button class="btn-small btn-undo" data-patient="${m.patientId}" data-med="${m.medicationId}" data-action="undo">↩️</button>
-                            </td>
+                            <td>${m.totalMg} mg</td>
                         </tr>
                     `;
                 });
@@ -1391,42 +1255,15 @@
                 elements.loadSampleBtn.addEventListener('click', loadSample);
             }
 
-            if (elements.clearCompletedBtn) {
-                elements.clearCompletedBtn.addEventListener('click', clearCompleted);
-            }
-
-            // NEW: Delete patient button
             if (elements.deletePatientBtn) {
                 elements.deletePatientBtn.addEventListener('click', handleDeletePatient);
             }
-
-            document.addEventListener('click', function(e) {
-                const btn = e.target.closest('button[data-action]');
-                if (!btn) return;
-                const patientId = parseFloat(btn.dataset.patient);
-                const medId = btn.dataset.med;
-                const action = btn.dataset.action;
-                let newStatus = null;
-                if (action === 'give') newStatus = 'Given';
-                else if (action === 'snooze') newStatus = 'Snoozed';
-                else if (action === 'undo') newStatus = 'Pending';
-
-                if (patientId && medId && newStatus) {
-                    const success = updateMedStatus(patientId, medId, newStatus);
-                    if (success) {
-                        showFormMessage('Status actualizat', 'success');
-                        renderAll();
-                    } else {
-                        showFormMessage('Eroare actualizare', 'error');
-                    }
-                }
-            });
 
             // Inițializare
             renderAll();
             updatePatientSelect();
 
-            // ===== Online/Offline (păstrat minim) =====
+            // ===== Online/Offline =====
             function updateOnlineStatus() {
                 const ind = document.getElementById('statusIndicator');
                 const txt = document.getElementById('statusText');
